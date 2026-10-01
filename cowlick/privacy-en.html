@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy | cowlick</title>
+<link rel="icon" href="icon.png">
+<style>
+:root { --bg: #12231C; --card: #1A2E25; --text: #ECE6D8; --muted: #B8B0A0; --accent: #E8B65A; --line: #2E4A3C; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.85 "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif; }
+main { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
+header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+header img { width: 48px; height: 48px; border-radius: 12px; }
+header a { color: var(--text); text-decoration: none; font-size: 20px; letter-spacing: .04em; }
+.lang { margin-left: auto; font-size: 14px; }
+a { color: var(--accent); }
+h1 { font-size: 24px; line-height: 1.5; }
+h2 { font-size: 19px; margin-top: 2.2em; padding-top: 1em; border-top: 1px solid var(--line); }
+h3 { font-size: 17px; margin-top: 1.6em; }
+ul { padding-left: 1.3em; }
+li { margin: .2em 0; }
+strong { color: var(--accent); font-weight: normal; }
+footer { margin-top: 48px; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+<header><img src="icon.png" alt=""><a href="./">cowlick</a><a class="lang" href="privacy.html">日本語</a></header>
+<h1>Privacy Policy (cowlick)</h1>
+<p><strong>Effective date: October 1, 2026</strong></p>
+<p>cowlick (the "App") is a quiet, shared room app for reading, studying, and working alongside others. This policy explains what information the App handles.</p>
+<h2>1. What the App intentionally does not have</h2>
+<p>The App has no chat, no video or voice calls, no likes, no follows, and no rankings. There is no account creation — the App uses anonymous sign-in only. It does not ask for your real name, phone number, email address, location, contacts, or photos. It does not use advertising or analytics/tracking SDKs.</p>
+<h2>2. Information stored on your device</h2>
+<p>The following is stored on your device:</p>
+<ul>
+<li>Daily time spent reading/working, broken down by activity type (reading / study / hobby / work)</li>
+<li>The private note you write after leaving a room (visible only to you)</li>
+<li>Your list of past works/books/tasks</li>
+<li>Your profile settings (display name, character/gender selection, etc.)</li>
+</ul>
+<p>This data lives in the app's local storage (shared_preferences). Your reading history and private notes are never transmitted anywhere unless you explicitly use the in-app "export" feature to copy them to your clipboard. <strong>However, your display name and character are also shared in real time with other people while you are in a room, as described in Section 3 below.</strong> Data stored on your device is deleted when you uninstall the App.</p>
+<h2>3. Information shared in real time while you're in a room</h2>
+<h3>3-1. Shared with other people in the same room</h3>
+<p>While you are in a room, the following information is shared in real time with the other people in that same room, via Supabase Realtime "Presence" (relayed through servers hosted in the Tokyo, Japan region; the server does not store this information):</p>
+<ul>
+<li>Your display name (up to 8 characters, chosen by you)</li>
+<li>A character appearance based on the gender you selected</li>
+<li>Your activity type (reading / study / hobby / work)</li>
+<li>The title of what you're working on (up to 20 characters; can be turned off in Settings)</li>
+<li>Whether you are away</li>
+<li>Your seat number</li>
+<li>The time you entered the room</li>
+<li>A randomly generated anonymous user ID (from Supabase anonymous sign-in — not linked to your name, email, phone number, or any other personal identity)</li>
+</ul>
+<h3>3-2. Shared with everyone who has the App open (lobby)</h3>
+<p>Separately, a "lobby" channel shares the following with <strong>everyone who currently has the App open</strong>, so the Home screen can show how many people are in each room:</p>
+<ul>
+<li>Your anonymous user ID</li>
+<li>Which room you're in</li>
+<li>Your seat number</li>
+</ul>
+<p>All of the above is relayed only while you are in a room or have the App open. <strong>It disappears the moment you leave the room or close the App, and is not stored on any server.</strong> The developer has no mechanism to record or view this data after the fact.</p>
+<h2>4. Reports (moderation)</h2>
+<p>If you encounter inappropriate behavior from another user, you can submit a report. Submitting a report sends the following to the developer's Supabase database (Tokyo region), where it is stored:</p>
+<ul>
+<li>Your (the reporter's) anonymous user ID</li>
+<li>The reported user's anonymous user ID</li>
+<li>The reported user's display name</li>
+<li>The "what you're working on" title the reported user had set</li>
+<li>The room where the report occurred</li>
+<li>The reason given for the report (name / word / other)</li>
+<li>The date and time of the report</li>
+</ul>
+<p>Report records are used solely for moderation purposes and are retained for <strong>up to one year</strong>, after which they are deleted. After review, a reported user may be banned from joining rooms. To request deletion or disclosure of report data, contact us using the details below.</p>
+<p>Separately, you can also locally "hide" another user on your own device. This is a local setting only and is never sent to any server.</p>
+<h2>5. Sound</h2>
+<p>The App plays ambient background sound and sound effects. Only if you turn on ambient sound (rain, wind, insects, river, seasonal sounds, etc.) will it keep playing when your screen is off or you switch to another app, using iOS background audio (`UIBackgroundModes: audio`). Sound effects such as page-turning or writing sounds do not play in the background. All audio is bundled with or generated by the App itself; no audio data is sent anywhere.</p>
+<h2>6. Children</h2>
+<p>The App is intended for users aged 13 and up. It does not ask for a name, birthdate, or contact details. Please be aware this App involves real-time interaction with other users — including seeing their character, activity, and text they entered (display name, title), and a reporting mechanism — before allowing a child to use it. We do not knowingly collect personal information that identifies children under 13.</p>
+<h2>7. Deleting your information</h2>
+<ul>
+<li>Data stored on your device (reading time, notes, profile, etc.) can be deleted at any time by uninstalling the App.</li>
+<li>Information shared only while you're in a room or have the App open (Presence and lobby data) disappears the moment you leave/close and is never retained.</li>
+<li>To request deletion or disclosure of report data, contact us using the details below.</li>
+</ul>
+<h2>8. Where data is hosted</h2>
+<p>The App's backend (Supabase) is hosted in the Tokyo, Japan region (ap-northeast-1).</p>
+<h2>9. Changes to this policy</h2>
+<p>This policy may be updated to reflect changes in law or new App features. We will notify you in the App of any material changes.</p>
+<h2>10. Contact</h2>
+<p>For questions or requests regarding this policy or your information, please contact:</p>
+<p>Email: tesaguristudio@gmail.com</p>
+
+<footer>© tesaguri studio</footer>
+</main>
+</body>
+</html>
