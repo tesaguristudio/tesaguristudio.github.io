@@ -25,7 +25,7 @@ footer { margin-top: 48px; color: var(--muted); font-size: 13px; }
 <main>
 <header><a href="./">Piyodoko</a><a class="lang" href="privacy.html">日本語</a></header>
 <h1>Privacy Policy (Piyodoko)</h1>
-<p><strong>Effective date: October 7, 2026</strong></p>
+<p><strong>Effective date: October 7, 2026 / Last updated: October 8, 2026</strong></p>
 <p>"Piyodoko" (the "App") is a logic puzzle game in which you place chicks on a color-divided board. This policy explains what information the App handles and why.</p>
 
 <h2>1. Accounts</h2>
@@ -36,7 +36,7 @@ footer { margin-top: 48px; color: var(--muted); font-size: 13px; }
 <li>Level progress, earned stars, the board of a level in progress</li>
 <li>Hint balance, challenge points and their recovery time</li>
 <li>Daily puzzle results and streaks</li>
-<li>Settings such as sound/music volume and mascot color</li>
+<li>Settings such as sound volume and vibration on/off, and your selected user icon</li>
 </ul>
 <p>This data is stored in the App's local storage and is deleted when you uninstall the App.</p>
 
@@ -44,20 +44,25 @@ footer { margin-top: 48px; color: var(--muted); font-size: 13px; }
 <p>To provide rankings and friend features, the following is sent to and stored in a Supabase database operated by the developer:</p>
 <ul>
 <li>Anonymous user ID</li>
-<li>Username (2–12 characters, chosen by you), avatar color/badge, friend code</li>
+<li>Username (2–12 characters, chosen by you), user icon and its background color, friend code</li>
 <li>Cleared level numbers, clear time, mistakes, hints used and clear timestamps</li>
 <li>Daily puzzle start/finish times, time, and the submitted placement (verified to prevent cheating)</li>
 <li>Weekly score</li>
 <li>Friend relationships (requests, acceptances, blocks), challenges and their results, cheers sent and received</li>
+<li>Friend battle records (opponent, the puzzle played, start/finish times, time, mistakes, result, win/loss record)</li>
+<li>Reports (user IDs of the reporter and the reported user, the reported user's username at that time, reason, optional note (up to 200 characters), the screen it was sent from, handling status, date and time)</li>
 <li>Counters used for rate limiting and abuse prevention</li>
 </ul>
 <h3>Information visible to other players</h3>
 <ul>
 <li>Rankings: username, avatar, rank and score / clears / time (visible to all players)</li>
 <li>Username search and friend code: username and avatar</li>
-<li>Friends: highest level, today's daily time, weekly score and streak</li>
+<li>Friends: highest level, today's daily time, weekly score, streak and battle record</li>
+<li>Your opponent in a friend battle: during the battle, in real time, the number of chicks you have found, remaining hearts and connection status; afterwards, the result (time and mistakes)</li>
 </ul>
 <p>Please do not use your real name or contact details as your username.</p>
+<h3>Prohibited conduct and reports</h3>
+<p>Inappropriate usernames (offensive or obscene words, personal information, etc.), harassing other players and cheating are prohibited. You can report them with "Report" in the App (the reported user is not told who reported them). The developer reviews reports and may rename or hide a username or restrict the use of online features. A username reported by several users may be automatically replaced with another name until it has been reviewed. Report records are used only for handling reports and are deleted within one year after the report has been handled. Deleting your account also deletes reports you made and reports about you.</p>
 
 <h2>4. Advertising (Google AdMob)</h2>
 <p>The App uses Google AdMob, provided by Google LLC, to show <strong>optional rewarded video ads</strong> that you can choose to watch to receive hints or challenge points. No ads are shown without your choice.</p>
