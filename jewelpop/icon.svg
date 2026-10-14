@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+<defs><radialGradient id="g" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#FFB3BB"/><stop offset=".45" stop-color="#FF4D5E"/><stop offset="1" stop-color="#A3122A"/></radialGradient></defs>
+<rect width="64" height="64" rx="14" fill="#2A1856"/>
+<polygon points="32,8 52,20 52,44 32,56 12,44 12,20" fill="url(#g)" stroke="#A3122A" stroke-width="2"/>
+<polygon points="32,20 42,26 42,38 32,44 22,38 22,26" fill="#fff" opacity=".2"/>
+<ellipse cx="24" cy="21" rx="7" ry="3.5" transform="rotate(-35 24 21)" fill="#fff" opacity=".75"/>
+</svg>
