@@ -1,6 +1,6 @@
 {
-  "name": "ひびカレンダー",
-  "short_name": "ひびカレ",
+  "name": "dragon days",
+  "short_name": "dragon days",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
