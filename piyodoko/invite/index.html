@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ぴよどこ - フレンド招待</title>
+<meta property="og:title" content="ぴよどこ - フレンド招待 / Piyodoko friend invite">
+<meta property="og:description" content="ぴよどこでいっしょに遊ぼう！ / Let's play Piyodoko together!">
+<meta property="og:image" content="https://tesaguristudio.github.io/piyodoko/icon.png">
+<meta property="og:type" content="website">
+<meta name="robots" content="noindex">
+<style>
+body { margin: 0; background: #F5F0E6; color: #2B2F3A; font: 16px/1.7 "Hiragino Maru Gothic ProN", "M PLUS Rounded 1c", "Yu Gothic", "Noto Sans JP", sans-serif; }
+main { max-width: 480px; margin: 0 auto; padding: 40px 16px 56px; text-align: center; }
+img.icon { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 4px 14px rgba(0,0,0,.12); }
+h1 { font-size: 24px; margin: 18px 0 4px; }
+p { color: #5D5A52; margin: 6px 0; }
+.card { background: #FFFDF8; border-radius: 18px; padding: 18px 16px; margin: 22px 0; box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.label { font-size: 13px; color: #7A7468; }
+.code { font-size: 30px; font-weight: bold; letter-spacing: .12em; margin: 2px 0 8px; }
+button, a.btn { display: block; width: 100%; box-sizing: border-box; border: 0; border-radius: 999px; padding: 14px 16px; font: inherit; font-weight: bold; text-decoration: none; cursor: pointer; margin: 10px 0 0; }
+.primary { background: #D9483B; color: #fff; }
+.secondary { background: #2B2F3A; color: #fff; }
+.ghost { background: #EDE6D8; color: #2B2F3A; }
+.note { font-size: 13px; color: #7A7468; margin-top: 10px; }
+ol { text-align: left; color: #5D5A52; padding-left: 1.4em; margin: 8px 0 0; }
+footer { margin-top: 36px; color: #7A7468; font-size: 13px; }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+<img class="icon" src="../icon.png" alt="">
+<h1 id="title"></h1>
+<p id="lead"></p>
+
+<div class="card" id="codeCard">
+  <div class="label" id="codeLabel"></div>
+  <div class="code" id="code"></div>
+  <a class="btn primary" id="open" href="#"></a>
+  <button class="ghost" id="copy" type="button"></button>
+  <p class="note" id="openNote"></p>
+</div>
+
+<div class="card">
+  <p id="noApp"></p>
+  <a class="btn secondary" id="ios" href="https://apps.apple.com/app/id6820950352">App Store</a>
+  <a class="btn secondary" id="android" href="https://play.google.com/store/apps/details?id=com.takem.piyodoko">Google Play</a>
+  <ol id="steps"></ol>
+</div>
+
+<footer>© tesaguri studio</footer>
+</main>
+<script>
+(function () {
+  var ja = (navigator.language || '').toLowerCase().indexOf('ja') === 0;
+  var t = ja ? {
+    title: 'ぴよどこの招待が届きました',
+    lead: 'フレンドになって、いっしょに遊ぼう！',
+    codeLabel: 'フレンドコード',
+    open: 'アプリで開く',
+    copy: 'コードをコピー',
+    copied: 'コピーしました',
+    openNote: 'アプリが開くと、フレンド追加の画面が出ます。',
+    noApp: 'アプリがまだない人は、ここから入れてください。',
+    steps: ['アプリを入れて、一度ひらく', 'このページにもどって「アプリで開く」を押す', '（開かないときは）フレンド追加で、上のコードを入力'],
+    bad: 'リンクが正しくないようです。送ってくれた人に、フレンドコードを聞いてください。'
+  } : {
+    title: "You're invited to Piyodoko",
+    lead: "Become friends and play together!",
+    codeLabel: 'Friend code',
+    open: 'Open in the app',
+    copy: 'Copy the code',
+    copied: 'Copied',
+    openNote: 'The app opens on the add-friend screen.',
+    noApp: "Don't have the app yet? Get it here.",
+    steps: ['Install the app and open it once', 'Come back to this page and tap "Open in the app"', "(If it doesn't open) enter the code above in Add friend"],
+    bad: "This link doesn't look right. Ask your friend for their friend code."
+  };
+  if (!ja) document.documentElement.lang = 'en';
+  function $(id) { return document.getElementById(id); }
+  function text(id, s) { $(id).textContent = s; }
+  ['title', 'lead', 'codeLabel', 'open', 'copy', 'openNote', 'noApp'].forEach(function (k) { text(k, t[k]); });
+  t.steps.forEach(function (s) { var li = document.createElement('li'); li.textContent = s; $('steps').appendChild(li); });
+
+  // Same rules as the app (lib/social/invite_links.dart): 8 characters,
+  // no 0/O, 1/I/L.
+  var raw = new URLSearchParams(location.search).get('invite') || '';
+  var code = raw.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (!/^[ABCDEFGHJKMNPQRSTUVWXYZ2-9]{8}$/.test(code)) code = '';
+
+  var ua = navigator.userAgent || '';
+  var android = /Android/i.test(ua);
+  var ios = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (ios) $('android').hidden = true;
+  if (android) $('ios').hidden = true;
+
+  if (!code) {
+    $('codeCard').hidden = true;
+    text('lead', t.bad);
+    return;
+  }
+  text('code', code.slice(0, 4) + ' ' + code.slice(4));
+  var play = $('android').href;
+  // Android: an intent link opens the app, or Google Play when it is missing.
+  $('open').href = android
+    ? 'intent://invite/' + code + '#Intent;scheme=piyodoko;package=com.takem.piyodoko;S.browser_fallback_url=' + encodeURIComponent(play) + ';end'
+    : 'piyodoko://invite/' + code;
+  $('copy').addEventListener('click', function () {
+    var done = function () { text('copy', t.copied); setTimeout(function () { text('copy', t.copy); }, 1600); };
+    if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, function () {});
+  });
+})();
+</script>
+</body>
+</html>
