@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tesaguri studio</title>
+<meta name="description" content="tesaguri studio のスマホアプリ一覧。Meguru（御朱印・参拝記録）、ぴよどこ（ひよこのロジックパズル）。">
+<meta property="og:title" content="tesaguri studio">
+<meta property="og:description" content="個人で作っているスマホアプリの一覧です。">
+<meta property="og:image" content="https://tesaguristudio.github.io/piyodoko/icon.png">
+<style>
+:root { --bg: #F6F2EA; --card: #FFFDF9; --ink: #2B3346; --soft: #6E7383; --line: #E9E3D8; --accent: #D5473D; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.8 "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif; }
+main { max-width: 640px; margin: 0 auto; padding: 48px 16px 64px; }
+header { text-align: center; margin-bottom: 36px; }
+.logo { font: 300 34px/1.2 "Cormorant Garamond", Georgia, "Times New Roman", serif; letter-spacing: .04em; margin: 0; }
+.logo span { color: var(--accent); }
+header p { color: var(--soft); margin: 8px 0 0; }
+.app { display: flex; gap: 16px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 18px; margin: 16px 0; }
+.app img { width: 72px; height: 72px; border-radius: 16px; flex: none; background: #fff; border: 1px solid var(--line); }
+.app h2 { margin: 0; font-size: 20px; }
+.app p { margin: 4px 0 10px; color: var(--soft); font-size: 15px; }
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+.links a, .links span { display: inline-block; padding: 6px 14px; border-radius: 999px; font-size: 14px; text-decoration: none; }
+.links a { background: var(--ink); color: #fff; }
+.links span { background: var(--line); color: var(--soft); }
+.more { font-size: 13px; margin-top: 8px; }
+.more a { color: var(--soft); }
+footer { margin-top: 40px; text-align: center; color: var(--soft); font-size: 14px; }
+footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1 class="logo">tesagur<span>i</span> studio</h1>
+  <p>個人で、毎日がちょっと楽しくなるスマホアプリを作っています。</p>
+</header>
+
+<section class="app">
+  <img src="meguru/icon.png" alt="Meguru のアイコン">
+  <div>
+    <h2>Meguru</h2>
+    <p>御朱印・参拝記録アプリ。お参りした神社を記録して、御朱印の写真をコレクションとして残せます。</p>
+    <div class="links">
+      <a href="https://apps.apple.com/jp/app/id6763484099">App Store</a>
+      <a href="https://play.google.com/store/apps/details?id=com.meguru.app">Google Play</a>
+    </div>
+  </div>
+</section>
+
+<section class="app">
+  <img src="piyodoko/icon.png" alt="ぴよどこ のアイコン">
+  <div>
+    <h2>ぴよどこ</h2>
+    <p>ひよこのロジックパズル。色・行・列にひよこを1羽ずつ、となり合わないように置いていきます。デイリーパズルやフレンドとのリアルタイム対戦も。</p>
+    <div class="links">
+      <a href="https://apps.apple.com/jp/app/id6820950352">App Store</a>
+      <span>Android版 準備中</span>
+    </div>
+    <p class="more"><a href="piyodoko/">ぴよどこのページ</a></p>
+  </div>
+</section>
+
+<footer>
+  <p>お問い合わせ：<a href="mailto:tesaguristudio@gmail.com">tesaguristudio@gmail.com</a><br>
+  X：<a href="https://x.com/tesaguristudio">@tesaguristudio</a></p>
+  <p>© tesaguri studio</p>
+</footer>
+</main>
+</body>
+</html>
