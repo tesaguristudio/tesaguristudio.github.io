@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ラビラビ - 天気と祝日がわかるかんたんカレンダー</title>
+<link rel="icon" href="icon.png">
+<style>
+:root { --text:#23221F; --sub:#6E6A63; --line:#E4E1DB; --accent:#C9362D; --bg:#F6F1E7; --box:#FFFFFF; }
+@media (prefers-color-scheme: dark) { :root { --text:#ECE9E4; --sub:#A39E96; --line:#34322F; --accent:#FF7A6E; --bg:#161514; --box:#22211F; } }
+* { box-sizing: border-box; }
+body { margin:0; background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Yu Gothic",sans-serif; font-size:16px; line-height:1.8; -webkit-text-size-adjust:100%; }
+main { max-width:720px; margin:0 auto; padding:32px 16px 64px; }
+h1 { font-size:1.5rem; line-height:1.4; }
+h2 { font-size:1.15rem; margin:32px 0 8px; padding-bottom:4px; border-bottom:2px solid var(--line); }
+ul, ol { padding-left:1.4em; }
+li { margin:.2em 0; }
+.box { background:var(--box); border-radius:12px; padding:12px 16px; margin:12px 0; }
+.meta { color:var(--sub); font-size:.9rem; }
+a { color:var(--accent); word-break:break-all; }
+footer { margin-top:48px; color:var(--sub); font-size:13px; }
+</style>
+</head>
+<body>
+<main style="text-align:center">
+<img src="icon.png" alt="" width="112" height="112" style="border-radius:26px">
+<h1>ラビラビ</h1>
+<p>天気・祝日・六曜がひと目でわかる、かんたんカレンダー。<br>予定のほかに、シフトや ToDo もまとめて書けます。</p>
+<div class="box" style="text-align:left">
+<ul>
+<li>月のカレンダーに、天気予報・祝日・六曜を表示</li>
+<li>シフト（早番・遅番・休みなど）をかんたんに入力</li>
+<li>ToDo（やること）のリスト</li>
+<li>予定の通知、スタンプで予定を入れる</li>
+<li>データはスマホの中だけに保存（アカウントの登録はいりません）</li>
+</ul>
+</div>
+<div class="box">
+<p><a href="privacy.html">プライバシーポリシー</a> ／ <a href="terms.html">利用規約</a> ／ <a href="delete.html">データの削除について</a></p>
+<p class="meta">お問い合わせ：<a href="mailto:tesaguristudio@gmail.com">tesaguristudio@gmail.com</a></p>
+</div>
+<footer>© tesaguri studio</footer>
+</main>
+</body>
+</html>
