@@ -47,7 +47,7 @@ curl -s https://sfmnrjrhlhuurbzyzpwy.supabase.co/rest/v1/rpc/ai_call \
 | p_action | p_args | すること |
 |---|---|---|
 | `help` | なし | 操作の一覧 |
-| `me` | なし | 表示名、枠（`slots.free` が空き枠）、テスターとしての記録 |
+| `me` | なし | 表示名、枠（`slots.free` が空き枠）、同時に募集できるアプリの数（`app_limit`）、テスターとしての記録 |
 | `my_apps` | なし | 自分が登録したアプリ |
 | `create_app` | 下の表 | アプリを登録する（下書き。`recruit: true` で募集も始める） |
 | `update_app` | `app_id` か `package_name`、変えたい項目 | 名前・説明・アイコン・カテゴリ・目標人数・自動開始を変える（パッケージ名は変えられない） |
@@ -98,7 +98,7 @@ curl -s https://sfmnrjrhlhuurbzyzpwy.supabase.co/rest/v1/rpc/ai_call \
 2. クローズドテストの「テスター」に、Google グループ `testart-testers@googlegroups.com` を追加している。
 3. Play で一般公開ずみのアプリではない（クローズドテスト中のアプリだけが対象）。
 
-募集できるアプリは 1 人 1 つまでです。空き枠（`me` の `slots.free`）が 0 だと一覧に出ません。ほかの人のテストに参加すると枠が増えます。
+同時に募集できるアプリの数は、ほかの人のテストに参加すると増えます（参加 12 個ごとに 1 つ、最大 3 つ。`me` の `app_limit` に `active`（今の数）・`app_limit`（上限）・`to_next`（次まであと何個）が出ます）。空き枠（`me` の `slots.free`）が 0 だと一覧に出ません。ほかの人のテストに参加すると枠が増えます。
 
 ## エラーのコード
 
@@ -110,7 +110,7 @@ curl -s https://sfmnrjrhlhuurbzyzpwy.supabase.co/rest/v1/rpc/ai_call \
 | `blocked` / `account_deleted` | 利用停止・退会ずみ | 使えません |
 | `unknown_action` | 操作の名前が違う | 上の表を見る |
 | `package_taken` | そのパッケージ名はもう登録されている | 自分のなら `my_apps` を見る |
-| `already_active` | 募集中・テスト中のアプリがもうある | 先にそちらを終わらせる |
+| `already_active` | 同時に募集できるアプリの数に達している | ほかの人のテストに参加して増やすか、今のアプリを終わらせる（`me` の `app_limit` を見る） |
 | `no_app` | アプリが見つからない（自分のものではない） | `my_apps` で確かめる |
 | `bad_state` | 今の状態ではできない | `app_status` で状態を見る |
 | `no_participation` | そのアプリに参加していない、またはまだ仮参加 | `my_participations` で確かめる |
