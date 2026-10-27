@@ -98,7 +98,7 @@ curl -s https://sfmnrjrhlhuurbzyzpwy.supabase.co/rest/v1/rpc/ai_call \
 2. クローズドテストの「テスター」に、Google グループ `testart-testers@googlegroups.com` を追加している。
 3. Play で一般公開ずみのアプリではない（クローズドテスト中のアプリだけが対象）。
 
-同時に募集できるアプリの数は、ほかの人のテストに参加すると増えます（参加 12 個ごとに 1 つ、最大 3 つ。`me` の `app_limit` に `active`（今の数）・`app_limit`（上限）・`to_next`（次まであと何個）が出ます）。空き枠（`me` の `slots.free`）が 0 だと一覧に出ません。ほかの人のテストに参加すると枠が増えます。
+同時に募集できるアプリの数は、ほかの人のテストに参加すると増えます（参加 5 個ごとに 1 つ、最大 3 つ。`me` の `app_limit` に `active`（今の数）・`app_limit`（上限）・`to_next`（次まであと何個）が出ます）。空き枠（`me` の `slots.free`）が 0 だと一覧に出ません。ほかの人のテストに参加すると枠が増えます。
 
 ## エラーのコード
 
