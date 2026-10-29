@@ -11,7 +11,9 @@ body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.85 "Hi
 main { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
 header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
 header a { color: var(--text); text-decoration: none; font-size: 20px; font-weight: bold; }
-.lang { margin-left: auto; font-size: 14px; font-weight: normal !important; }
+.lang { margin-left: auto; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 2px 12px; font-size: 14px; font-weight: normal !important; }
+.lang a, .lang span { font-size: 14px; font-weight: normal; }
+.lang span { color: var(--muted); }
 a { color: var(--accent); }
 h1 { font-size: 24px; line-height: 1.5; }
 h2 { font-size: 19px; margin-top: 2.2em; padding-top: 1em; border-top: 1px solid var(--line); }
@@ -24,7 +26,7 @@ footer { margin-top: 48px; color: var(--muted); font-size: 13px; }
 </head>
 <body>
 <main>
-<header><a href="./">ぴよどこ</a><a class="lang" href="privacy-en.html">English</a></header>
+<header><a href="./">ぴよどこ</a><nav class="lang" aria-label="言語"><span aria-current="page">日本語</span><a href="privacy-en.html" lang="en">English</a><a href="privacy-ko.html" lang="ko">한국어</a><a href="privacy-zh.html" lang="zh-Hant">繁體中文</a><a href="privacy-es.html" lang="es">Español</a><a href="privacy-pt.html" lang="pt-BR">Português</a></nav></header>
 <h1>プライバシーポリシー（ぴよどこ）</h1>
 <p><strong>施行日：2026年10月7日／最終更新：2026年10月18日</strong></p>
 <p>「ぴよどこ」（以下「本アプリ」）は、色分けされた盤面にひよこを置いていく論理パズルアプリです。本ポリシーは、本アプリが取り扱う情報と、その利用目的について説明します。</p>

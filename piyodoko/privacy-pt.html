@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Política de privacidade | Piyodoko</title>
+<style>
+:root { --bg: #F5F0E6; --text: #2B2F3A; --muted: #7A7468; --accent: #D9483B; --line: #E6DFD2; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.75 -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif; }
+main { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
+header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+header a { color: var(--text); text-decoration: none; font-size: 20px; font-weight: bold; }
+.lang { margin-left: auto; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 2px 12px; font-size: 14px; font-weight: normal !important; }
+.lang a, .lang span { font-size: 14px; font-weight: normal; }
+.lang span { color: var(--muted); }
+a { color: var(--accent); }
+h1 { font-size: 24px; line-height: 1.4; }
+h2 { font-size: 19px; margin-top: 2.2em; padding-top: 1em; border-top: 1px solid var(--line); }
+h3 { font-size: 17px; margin-top: 1.6em; }
+ul { padding-left: 1.3em; }
+strong { color: var(--accent); }
+footer { margin-top: 48px; color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+<header><a href="./">Piyodoko</a><nav class="lang" aria-label="Idioma"><a href="privacy.html" lang="ja">日本語</a><a href="privacy-en.html" lang="en">English</a><a href="privacy-ko.html" lang="ko">한국어</a><a href="privacy-zh.html" lang="zh-Hant">繁體中文</a><a href="privacy-es.html" lang="es">Español</a><span aria-current="page">Português</span></nav></header>
+<h1>Política de privacidade (Piyodoko)</h1>
+<p><strong>Data de vigência: 7 de outubro de 2026 / Última atualização: 18 de outubro de 2026</strong></p>
+<p>“Piyodoko” (o “App”) é um jogo de lógica em que você coloca pintinhos em um tabuleiro dividido por cores. Esta política explica quais informações o App trata e com quais finalidades.</p>
+
+<h2>1. Contas</h2>
+<p>O App não pede seu endereço de e-mail, número de telefone nem nome real. Para oferecer os recursos online (ranking, amigos e registros do quebra-cabeça diário), um ID de usuário anônimo e aleatório é gerado automaticamente na primeira vez que você abre o App (autenticação anônima do Supabase). Esse ID não está vinculado ao seu nome, e-mail ou outros dados pessoais.</p>
+<p>Se você usar “Transferir dados”, um código de transferência aleatório e uma senha escolhida por você são associados a esse ID (a senha é armazenada de forma criptografada; o desenvolvedor não consegue lê-la). Nenhum endereço de e-mail é cadastrado.</p>
+
+<h2>2. Informações armazenadas no seu dispositivo</h2>
+<ul>
+<li>Progresso nos níveis, estrelas conquistadas e o tabuleiro de um nível em andamento</li>
+<li>Quantidade de dicas, fichas disponíveis e o horário de recarga</li>
+<li>Resultados e sequências do quebra-cabeça diário</li>
+<li>Configurações como volume do som e vibração (ligada/desligada), e o ícone de usuário escolhido</li>
+</ul>
+<p>Esses dados ficam no armazenamento local do App e são apagados quando você desinstala o App.</p>
+
+<h2>3. Informações enviadas e armazenadas no nosso servidor (recursos online)</h2>
+<p>Para oferecer o ranking e os recursos de amigos, as seguintes informações são enviadas e armazenadas em um banco de dados Supabase operado pelo desenvolvedor:</p>
+<ul>
+<li>ID de usuário anônimo</li>
+<li>Nome de usuário (de 2 a 12 caracteres, escolhido por você), ícone de usuário e sua cor de fundo, código de amigo</li>
+<li>Números dos níveis concluídos, tempo, erros, dicas usadas e data e hora da conclusão</li>
+<li>Horário de início e de conclusão do quebra-cabeça diário, tempo e a disposição enviada (verificada para evitar trapaças)</li>
+<li>Pontos semanais</li>
+<li>Relações de amizade (pedidos, aceitações, bloqueios), desafios e seus resultados, apoios enviados e recebidos</li>
+<li>Registros das partidas do Amistoso (adversário, quebra-cabeça jogado, horário de início e de término, tempo, erros, resultado, histórico de vitórias e derrotas)</li>
+<li>Denúncias (IDs de usuário de quem denunciou e de quem foi denunciado, o nome de usuário do denunciado naquele momento, motivo, observação opcional (até 200 caracteres), tela de onde a denúncia foi enviada, status do tratamento, data e hora)</li>
+<li>Contadores usados para limitar a frequência de uso e prevenir abusos</li>
+<li>Somente se você criar um código de transferência (“Transferir dados”): uma cópia das informações armazenadas no seu dispositivo (seção 2), usada para levar seus dados para outro dispositivo e atualizada automaticamente a partir de então</li>
+</ul>
+<h3>Informações visíveis para outros jogadores</h3>
+<ul>
+<li>Ranking: nome de usuário, avatar, posição e pontuação / níveis concluídos / tempo (visível para todos os jogadores)</li>
+<li>Busca por nome de usuário e código de amigo: nome de usuário e avatar</li>
+<li>Amigos: nível mais alto, tempo no quebra-cabeça diário de hoje, pontos semanais, sequência e histórico de partidas</li>
+<li>Seu adversário em um Amistoso: durante a partida, em tempo real, quantos pintinhos você encontrou, os corações restantes e o status da conexão; depois, o resultado (tempo e erros)</li>
+</ul>
+<p>Não use seu nome real nem seus dados de contato como nome de usuário.</p>
+<h3>Condutas proibidas e denúncias</h3>
+<p>São proibidos nomes de usuário impróprios (palavras ofensivas ou obscenas, dados pessoais etc.), assédio a outros jogadores e trapaça. Você pode denunciá-los com “Denunciar” no App (o usuário denunciado não fica sabendo quem fez a denúncia). O desenvolvedor analisa as denúncias e pode alterar ou ocultar um nome de usuário ou restringir o uso dos recursos online. Um nome de usuário denunciado por vários usuários pode ser substituído automaticamente por outro nome até ser analisado. Os registros de denúncias são usados apenas para tratá-las e são apagados em até um ano após o tratamento da denúncia. Ao excluir sua conta, também são apagadas as denúncias que você fez e as denúncias feitas contra você.</p>
+
+<h2>4. Publicidade (Google AdMob)</h2>
+<p>O App usa o Google AdMob, fornecido pela Google LLC, para exibir <strong>anúncios em vídeo premiados opcionais</strong>, que você pode escolher assistir para receber dicas ou fichas. Nenhum anúncio é exibido sem a sua escolha.</p>
+<p>O AdMob pode coletar o identificador de publicidade (ID de publicidade do Android / IDFA do iOS), o endereço IP, informações do dispositivo e do sistema operacional e dados de exibição e interação com anúncios para veicular e medir anúncios e prevenir fraudes. Para usuários do Espaço Econômico Europeu, do Reino Unido e da Suíça, o consentimento é obtido por meio da ferramenta de gerenciamento de consentimento do Google antes da exibição de anúncios. Você pode alterar a personalização de anúncios nas configurações do dispositivo ou em “Anúncios (privacidade)” no App.</p>
+<p>Consulte a Política de Privacidade do Google (<a href="https://policies.google.com/privacy">https://policies.google.com/privacy</a>) e Como o Google usa as informações de sites ou apps que utilizam nossos serviços (<a href="https://policies.google.com/technologies/partner-sites">https://policies.google.com/technologies/partner-sites</a>).</p>
+
+<h2>5. Câmera</h2>
+<p>A câmera é usada apenas para ler o QR code de um amigo. A leitura acontece no seu dispositivo; as imagens não são armazenadas nem enviadas.</p>
+
+<h2>6. Finalidades do uso</h2>
+<ul>
+<li>Salvar o progresso do jogo e oferecer o ranking, os amigos, os desafios e o quebra-cabeça diário</li>
+<li>Prevenir trapaças e lidar com abusos</li>
+<li>Exibir anúncios</li>
+<li>Investigar erros e melhorar o App</li>
+</ul>
+
+<h2>7. Compartilhamento com terceiros</h2>
+<p>Exceto pela publicidade descrita na seção 4 e quando exigido por lei, não compartilhamos nem vendemos suas informações a terceiros.</p>
+
+<h2>8. Local de armazenamento e retenção</h2>
+<p>Nosso servidor (Supabase) fica hospedado na região de Tóquio. Os dados dos recursos online são mantidos até que você solicite a exclusão. Os registros de prevenção de abusos são apagados após um período limitado.</p>
+
+<h2>9. Exclusão das suas informações</h2>
+<ul>
+<li>As informações armazenadas no seu dispositivo podem ser apagadas desinstalando o App.</li>
+<li>Você pode apagar a qualquer momento os dados do servidor (nome de usuário, registros, amigos, desafios, apoios etc.) e os dados do seu dispositivo em Perfil → “Apagar conta e dados” no App.</li>
+<li>Se você não puder mais usar o App (por exemplo, depois de desinstalá-lo), entre em contato pelo endereço abaixo informando seu código de amigo ou nome de usuário, e apagaremos seus dados após a verificação.</li>
+</ul>
+
+<h2>10. Crianças</h2>
+<p>O App é destinado a usuários com 13 anos ou mais. Não coletamos intencionalmente informações de identificação pessoal de crianças menores de 13 anos.</p>
+
+<h2>11. Alterações nesta política</h2>
+<p>Esta política pode ser atualizada em razão de mudanças na legislação ou de novos recursos. Alterações importantes serão anunciadas no App ou nesta página.</p>
+
+<h2>12. Contato</h2>
+<p>Para dúvidas ou solicitações sobre esta política ou sobre suas informações pessoais, entre em contato:</p>
+<p>E-mail: tesaguristudio@gmail.com</p>
+
+<footer>© tesaguri studio</footer>
+</main>
+</body>
+</html>
