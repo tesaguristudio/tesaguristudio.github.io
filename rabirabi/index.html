@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ラビラビ - 天気と祝日がわかるかんたんカレンダー</title>
+<title>ラビラビ - シフト・給料もわかるシンプルカレンダー</title>
 <link rel="icon" href="icon.png">
 <style>
 :root { --text:#23221F; --sub:#6E6A63; --line:#E4E1DB; --accent:#C9362D; --bg:#F6F1E7; --box:#FFFFFF; }
@@ -17,6 +17,9 @@ ul, ol { padding-left:1.4em; }
 li { margin:.2em 0; }
 .box { background:var(--box); border-radius:12px; padding:12px 16px; margin:12px 0; }
 .meta { color:var(--sub); font-size:.9rem; }
+video { display:block; width:100%; height:auto; border-radius:12px; background:#000; }
+.btn { display:inline-block; margin:4px; padding:10px 24px; border-radius:999px; background:var(--text); color:var(--bg); text-decoration:none; font-weight:700; }
+.soon { display:inline-block; margin:4px; padding:10px 24px; border-radius:999px; background:var(--line); color:var(--sub); }
 a { color:var(--accent); word-break:break-all; }
 footer { margin-top:48px; color:var(--sub); font-size:13px; }
 </style>
@@ -25,13 +28,18 @@ footer { margin-top:48px; color:var(--sub); font-size:13px; }
 <main style="text-align:center">
 <img src="icon.png" alt="" width="112" height="112" style="border-radius:26px">
 <h1>ラビラビ</h1>
-<p>天気・祝日・六曜がひと目でわかる、かんたんカレンダー。<br>予定のほかに、シフトや ToDo もまとめて書けます。</p>
+<p>シフトもお給料もひと目でわかる、シンプルなカレンダー。<br>天気・祝日・六曜も、予定や ToDo といっしょに見られます。</p>
+<p><a class="btn" href="https://apps.apple.com/jp/app/id6824307890">App Store</a> <span class="soon">Android版 準備中</span></p>
+<div class="box">
+<video src="promo.mp4" poster="promo.jpg" controls playsinline muted preload="none"></video>
+</div>
 <div class="box" style="text-align:left">
 <ul>
+<li>シフト（早番・遅番・休みなど）をタップで入力。働いた時間とお給料のめやすも</li>
 <li>月のカレンダーに、天気予報・祝日・六曜を表示</li>
-<li>シフト（早番・遅番・休みなど）をかんたんに入力</li>
 <li>ToDo（やること）のリスト</li>
 <li>予定の通知、スタンプで予定を入れる</li>
+<li>ホーム画面のウィジェット（月のカレンダー・今日の予定）</li>
 <li>データはスマホの中だけに保存（アカウントの登録はいりません）</li>
 </ul>
 </div>
