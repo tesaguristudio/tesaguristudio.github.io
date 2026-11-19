@@ -1,4 +1,14 @@
 # tesaguristudio.github.io
+
+## アプリのフォルダ
+
+トップページ（`index.html`）に、それぞれのアプリのカードがある。新しいアプリを足したら、カードも足す。
+
+- `nekobako/` … ねこばこ（猫とダンボール箱のロジックパズル）。`index.html`（アプリのページ）・
+  `privacy.html` / `privacy-en.html`（プライバシーポリシー）・`version.json`（更新のお知らせ）・`icon.png`。
+  ストアで公開されるまでは、トップのカードは「準備中」。公開されたら、ストアのリンクに変え、
+  `version.json` の `latest` を上げる（下の「更新のお知らせ」）。
+
 ## 更新のお知らせ（version.json）
 
 各アプリのフォルダの `version.json` を、アプリが起動するたびに読みます。
