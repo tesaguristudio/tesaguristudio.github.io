@@ -1,4 +1,4 @@
 {
   "android": { "latest": "1.0.12", "minimum": "1.0.0" },
-  "ios": { "latest": "1.0.7", "minimum": "1.0.0" }
+  "ios": { "latest": "1.0.12", "minimum": "1.0.0" }
 }
