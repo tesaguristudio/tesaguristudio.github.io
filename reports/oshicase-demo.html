@@ -24,8 +24,12 @@ button{cursor:pointer}
 @media(min-width:520px){body{padding:24px 0;background:light-dark(#f3e9ee,#0e0b10)}.app{min-height:860px;border-radius:36px;background:var(--bg);box-shadow:0 20px 60px #0002;overflow:hidden}}
 header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);padding:calc(10px + env(safe-area-inset-top)) 16px 10px}
 .brand{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.brand .rt{display:flex;align-items:center;gap:6px}.gear{width:44px;height:44px;border:0;border-radius:50%;background:none;display:grid;place-items:center;color:var(--sub)}
+.sw{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);width:100%;border-left:0;border-right:0;border-top:0;background:none;text-align:left}.sw:last-child{border-bottom:0}.sw b{display:block;font-size:16px;color:var(--ink)}.sw span{font-size:13px;color:var(--sub)}
+.sw i{flex:none;width:52px;height:32px;border-radius:99px;background:var(--line);position:relative;transition:background .2s}.sw i::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0003;transition:transform .2s}.sw[aria-checked=true] i{background:var(--oshi)}.sw[aria-checked=true] i::after{transform:translateX(20px)}.sw:disabled{opacity:.45}
+.hidden-note{font-size:14px;color:var(--sub);text-align:center}
 .brand b{font-size:22px;font-weight:900;letter-spacing:.01em}.brand b i{font-style:normal;color:var(--oshi)}
-.demo{font-size:13px;color:var(--sub)}
+.demo{font-size:12px;color:var(--sub);text-align:right;line-height:1.3}
 .oshis{display:flex;gap:8px;overflow-x:auto;padding:2px;scrollbar-width:none}
 .chip{flex:none;display:flex;align-items:center;gap:6px;min-height:40px;padding:4px 14px 4px 4px;border-radius:999px;border:2px solid var(--line);background:var(--card);font-weight:700;font-size:15px}
 .chip .dot{width:30px;height:30px;border-radius:50%;background:var(--c);display:grid;place-items:center;color:#fff;font-size:14px}
@@ -141,7 +145,7 @@ textarea{width:100%;min-height:90px;border-radius:14px;border:2px solid var(--li
 <body>
 <div class="app">
   <header>
-    <div class="brand"><b>oshi<i>case</i></b><span class="demo">デモ・架空のデータ／今日は2026/11/27</span></div>
+    <div class="brand"><b>oshi<i>case</i></b><span class="rt"><span class="demo">デモ・架空のデータ<br>今日は2026/11/27</span><button class="gear" data-set aria-label="設定"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></button></span></div>
     <div class="oshis" id="oshis"></div>
   </header>
   <main id="view"></main>
@@ -173,6 +177,8 @@ let EV=[
  {id:7,o:'hinata',title:'STELLA NOTE 秋ツアー 名古屋',date:'2026-10-25',time:'17:00',venue:'日本ガイシホール',st:1,lose:true,seat:'',with:'',dl:[],cost:{},set:[],memo:'全滅……',stars:0},
  {id:8,o:'hinata',title:'STELLA NOTE ワンマン',date:'2026-05-17',time:'18:00',venue:'Zepp Haneda',st:5,seat:'1階 整理番号 A312',with:'',dl:[],cost:{チケット:7700,交通:900,グッズ:12400},set:['Starlight Letter','ハミングバード','雨上がりの約束'],memo:'',stars:5,ph:3},
  {id:9,o:'rei',title:'Blue Hour 夏ツアー 大阪',date:'2026-07-12',time:'17:00',venue:'グランキューブ大阪',st:5,seat:'2階 3列',with:'さき',dl:[],cost:{チケット:9500,交通:28600,宿泊:9800,グッズ:6000},set:['夜明けのブルー','Moonwalk','Blue Hour'],memo:'初遠征。たこ焼きもおいしかった',stars:5,ph:3}];
+let SET={money:true,shareMoney:true};try{Object.assign(SET,JSON.parse(localStorage.getItem('oshicase-set')||'{}'))}catch(_){}
+const saveSet=()=>{try{localStorage.setItem('oshicase-set',JSON.stringify(SET))}catch(_){}};
 let cur='all',tab='home',seg='up',calM=new Date(2026,11,1),selD=null,nid=10;
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -203,7 +209,7 @@ function home(){
   return `<div class="wid" style="--c:${o.color}"><div class="s">${esc(o.name)}を推して</div><div class="big">${sd.toLocaleString()}<small>日</small></div><div class="s">${o.since.replaceAll('-','.')}〜</div></div><div class="wid lt" style="--c:${o.color}"><div class="s">${esc(o.name)}の誕生日まで</div><div class="big">${bd}<small>日</small></div><div class="s">${Number(o.bday.slice(0,2))}月${Number(o.bday.slice(3))}日</div></div>`}).join('');
  const mid=nx?`<div class="wid wmid" style="--c:${O(nx.o).color}"><div style="text-align:center;flex:none;width:34%"><div class="s">次の現場まで</div><div class="big">${days(nx.date)}<small>日</small></div><div class="s">${md(nx.date)}</div></div><div class="col">${todos().filter(x=>!x.d.done).slice(0,3).map(x=>`<div class="line">${esc(x.d.l)} ・ ${whenTxt(x.d.at)}</div>`).join('')}</div></div>`:'';
  return `${tk}<h2>やること<small>締切が近い順</small></h2><div class="card">${td}</div><h2>記念日<small>ウィジェットにもなります</small></h2><div class="grid2">${ann}</div><h2>ホーム画面のウィジェット<small>中サイズ</small></h2>${mid}<p class="cap">ホーム画面に置くと、毎日カウントダウンが見られます。</p>`}
-function evRow(e){const d=dt(e.date),c=O(e.o).color;return `<button class="card ev" data-ev="${e.id}" style="--c:${c}"><div class="d"><b>${d.getDate()}</b><span>${wk[d.getDay()]}曜</span></div><div><div class="t">${esc(e.title)}</div><div class="v">${esc(e.venue)}${sum(e)?' ・ '+yen(sum(e)):''}</div></div><span class="st ${e.lose?'lose':''}">${stName(e)}</span></button>`}
+function evRow(e){const d=dt(e.date),c=O(e.o).color;return `<button class="card ev" data-ev="${e.id}" style="--c:${c}"><div class="d"><b>${d.getDate()}</b><span>${wk[d.getDay()]}曜</span></div><div><div class="t">${esc(e.title)}</div><div class="v">${esc(e.venue)}${SET.money&&sum(e)?' ・ '+yen(sum(e)):''}</div></div><span class="st ${e.lose?'lose':''}">${stName(e)}</span></button>`}
 function list(){
  let a=vis().filter(e=>seg==='up'?days(e.date)>=0:days(e.date)<0).sort((x,y)=>seg==='up'?x.date.localeCompare(y.date):y.date.localeCompare(x.date));
  let h='',m='';a.forEach(e=>{const k=e.date.slice(0,7);if(k!==m){m=k;h+=`<div class="month">${k.slice(0,4)}年${Number(k.slice(5))}月</div>`}h+=evRow(e)});
@@ -230,10 +236,10 @@ function summary(){
  const vc={};went.forEach(e=>vc[e.venue]=(vc[e.venue]||0)+1);const topV=Object.entries(vc).sort((a,b)=>b[1]-a[1])[0];
  const budget=200000;const usedM=y.filter(e=>e.date.startsWith('2026-12')).reduce((a,e)=>a+sum(e),0);
  const name=cur==='all'?'わたし':esc(O(cur).name)+'担';
- return `<h2>2026年<small>1月〜今日まで</small></h2><div class="stats"><div class="card stat"><b>${went.length}</b><span>行った現場</span></div><div class="card stat"><b>${rate}%</b><span>当選率</span></div><div class="card stat"><b>${(tot/10000).toFixed(1)}万</b><span>使ったお金</span></div></div>
- <h2>12月の予算<small>${yen(budget)}</small></h2><div class="card budget"><div class="bar"><div class="lab"><span>予定に入っている分</span><span>${yen(usedM)}</span></div><div class="tr"><div class="fl" style="width:${Math.min(100,usedM/budget*100)}%"></div></div></div><p class="cap" style="margin:6px 0 0">あと ${yen(Math.max(0,budget-usedM))} 使えます</p></div>
- <h2>費目ごと</h2><div class="card">${cb||'<div class="empty">まだ記録がありません</div>'}</div>${ob}
- <h2>1年のまとめ画像<small>SNSにシェア</small></h2><div class="share"><div class="ring"></div><div class="yr">2026年の推し活</div><h3>${name}の1年</h3><div class="row"><span>行った現場</span><b>${went.length}回</b></div><div class="row"><span>当選率</span><b>${rate}%</b></div><div class="row"><span>いちばん行った会場</span><b style="font-size:16px">${topV?esc(topV[0]):'—'}</b></div><div class="row"><span>推しに使ったお金</span><b>${yen(tot)}</b></div><div class="foot"><span>#oshicase</span><span>oshicase</span></div></div><button class="btn" data-share>画像を保存する</button>`}
+ return `<h2>2026年<small>1月〜今日まで</small></h2><div class="stats"><div class="card stat"><b>${went.length}</b><span>行った現場</span></div><div class="card stat"><b>${rate}%</b><span>当選率</span></div>${SET.money?`<div class="card stat"><b>${(tot/10000).toFixed(1)}万</b><span>使ったお金</span></div>`:`<div class="card stat"><b>${Object.keys(vc).length}</b><span>行った会場</span></div>`}</div>
+ ${SET.money?`<h2>12月の予算<small>${yen(budget)}</small></h2><div class="card budget"><div class="bar"><div class="lab"><span>予定に入っている分</span><span>${yen(usedM)}</span></div><div class="tr"><div class="fl" style="width:${Math.min(100,usedM/budget*100)}%"></div></div></div><p class="cap" style="margin:6px 0 0">あと ${yen(Math.max(0,budget-usedM))} 使えます</p></div>
+ <h2>費目ごと</h2><div class="card">${cb||'<div class="empty">まだ記録がありません</div>'}</div>${ob}`:`<h2>お金</h2><div class="card hidden-note">金額は表示しない設定になっています<button class="btn ghost" data-set>設定をひらく</button></div>`}
+ <h2>1年のまとめ画像<small>SNSにシェア</small></h2><div class="share"><div class="ring"></div><div class="yr">2026年の推し活</div><h3>${name}の1年</h3><div class="row"><span>行った現場</span><b>${went.length}回</b></div><div class="row"><span>当選率</span><b>${rate}%</b></div><div class="row"><span>いちばん行った会場</span><b style="font-size:16px">${topV?esc(topV[0]):'—'}</b></div>${SET.money&&SET.shareMoney?`<div class="row"><span>推しに使ったお金</span><b>${yen(tot)}</b></div>`:`<div class="row"><span>行った会場</span><b>${Object.keys(vc).length}か所</b></div>`}<div class="foot"><span>#oshicase</span><span>oshicase</span></div></div><button class="btn" data-share>画像を保存する</button>`}
 function render(){setColor();renderOshis();$('#view').innerHTML=tab==='home'?home():tab==='list'?list():tab==='cal'?cal():summary();document.querySelectorAll('nav [data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab))}
 function openSheet(h){$('#sheet').innerHTML='<div class="grab"></div>'+h;$('#scrim').classList.add('open')}
 function closeSheet(){$('#scrim').classList.remove('open')}
@@ -245,13 +251,19 @@ function detail(id){
  <div class="steps">${steps}</div><button class="lose-t" data-lose>${e.lose?'落選を取り消す':'落選だった'}</button>
  <h2>現場</h2><div class="card"><dl class="kv"><dt>推し</dt><dd>${esc(o.name)}（${esc(o.group)}）</dd><dt>日時</dt><dd>${md(e.date)} ${e.time}</dd><dt>会場</dt><dd>${esc(e.venue)}</dd><dt>座席</dt><dd>${esc(e.seat||'—')}</dd><dt>同行者</dt><dd>${esc(e.with||'—')}</dd></dl></div>
  ${e.dl.length?`<h2>締切<small>通知します</small></h2><div class="card">${e.dl.map((d,i)=>`<div class="todo ${d.done?'done':''}" style="--c:${c}"><button class="chk ${d.done?'on':''}" data-dl="${e.id}:${i}" aria-label="済みにする"></button><div class="x"><b>${esc(d.l)}</b><span>${md(d.at)} ${d.at.slice(11,16)}</span></div><span class="when">${d.done?'済':whenTxt(d.at)}</span></div>`).join('')}</div>`:''}
- <h2>お金<small>合計 ${yen(sum(e))}</small></h2><div class="card"><dl class="kv">${costs.length?costs.map(([k,v])=>`<dt>${k}</dt><dd style="text-align:right;font-variant-numeric:tabular-nums">${yen(v)}</dd>`).join(''):'<dt>—</dt><dd>まだありません</dd>'}</dl></div>
+ ${SET.money?`<h2>お金<small>合計 ${yen(sum(e))}</small></h2><div class="card"><dl class="kv">${costs.length?costs.map(([k,v])=>`<dt>${k}</dt><dd style="text-align:right;font-variant-numeric:tabular-nums">${yen(v)}</dd>`).join(''):'<dt>—</dt><dd>まだありません</dd>'}</dl></div>`:''}
  ${e.st===5?`<h2>思い出</h2><div class="photos">${Array.from({length:e.ph||0},()=>'<div class="ph"></div>').join('')}<div class="ph add">＋写真</div></div>
  ${e.set.length?`<h2>セトリ</h2><div class="card"><ol class="set">${e.set.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></div>`:''}
  <h2>よかった度</h2><div class="stars">${[1,2,3,4,5].map(n=>`<button class="${n<=e.stars?'on':''}" data-star="${n}" aria-label="${n}">★</button>`).join('')}</div>`:''}
  <h2>メモ・感想</h2><textarea id="memo" placeholder="今日のこと、忘れないうちに">${esc(e.memo)}</textarea></div>`);
  $('#sheet').dataset.id=id;
  $('#memo').addEventListener('input',ev=>{e.memo=ev.target.value})}
+function settings(){
+ openSheet(`<div class="shead"><h3>設定</h3><button class="icon" data-close aria-label="閉じる"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+ <h2>お金の表示</h2><div class="card">
+ <button class="sw" role="switch" aria-checked="${SET.money}" data-sw="money"><span><b>金額を表示する</b><span>オフにすると、一覧・現場・まとめから金額と予算が消えます。入力済みの記録は残ります</span></span><i></i></button>
+ <button class="sw" role="switch" aria-checked="${SET.money&&SET.shareMoney}" data-sw="shareMoney" ${SET.money?'':'disabled'}><span><b>まとめ画像に金額を入れる</b><span>SNSに載せる画像だけ金額を外せます</span></span><i></i></button></div>
+ <p class="cap">デモでは、この設定はこのブラウザに保存されます。</p>`)}
 function addForm(){
  const dflt=cur==='all'?'hinata':cur;
  openSheet(`<div class="shead"><h3>現場を追加</h3><button class="icon" data-close aria-label="閉じる"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -260,12 +272,12 @@ function addForm(){
  <div class="grid2"><label class="field"><span>日付</span><input id="fd" type="date" required value="2027-01-17"></label><label class="field"><span>開演</span><input id="fh" type="time" value="17:00"></label></div>
  <label class="field"><span>会場</span><input id="fv" placeholder="例：マリンメッセ福岡"></label>
  <label class="field"><span>申込締切（あれば通知します）</span><input id="fl" type="datetime-local" value="2026-12-01T23:59"></label>
- <label class="field"><span>チケット代</span><input id="fc" type="number" inputmode="numeric" placeholder="9800"></label>
+ ${SET.money?`<label class="field"><span>チケット代</span><input id="fc" type="number" inputmode="numeric" placeholder="9800"></label>`:''}
  <button class="btn" type="submit">追加する</button></form>`);
  $('#f').addEventListener('submit',ev=>{ev.preventDefault();const t=$('#ft').value.trim();if(!t)return;
   const e={id:nid++,o:$('#fo').value,title:t,date:$('#fd').value,time:$('#fh').value||'',venue:$('#fv').value.trim()||'未定',st:0,seat:'',with:'',dl:[],cost:{},set:[],memo:'',stars:0};
   if($('#fl').value)e.dl.push({l:'申込締切',at:$('#fl').value,done:false});
-  const c=Number($('#fc').value);if(c)e.cost.チケット=c;
+  const c=Number($('#fc')?.value||0);if(c)e.cost.チケット=c;
   EV.push(e);closeSheet();tab='list';seg=days(e.date)>=0?'up':'past';render();toast('追加しました。締切の前日と当日に通知します')})}
 document.addEventListener('click',ev=>{
  const t=ev.target.closest('button');if(!t)return;
@@ -281,6 +293,8 @@ document.addEventListener('click',ev=>{
  if(t.hasAttribute('data-lose')){const e=EV.find(x=>x.id===sid);e.lose=!e.lose;render();detail(sid);return}
  if(t.dataset.star){const e=EV.find(x=>x.id===sid);e.stars=Number(t.dataset.star);detail(sid);return}
  if(t.hasAttribute('data-close')){closeSheet();return}
+ if(t.hasAttribute('data-set')){settings();return}
+ if(t.dataset.sw){SET[t.dataset.sw]=!(t.getAttribute('aria-checked')==='true');saveSet();render();settings();toast(SET[t.dataset.sw]?'表示します':'表示しません');return}
  if(t.hasAttribute('data-share')){toast('アプリでは画像として保存されます（デモ）');return}
 });
 $('#scrim').addEventListener('click',ev=>{if(ev.target.id==='scrim')closeSheet()});
