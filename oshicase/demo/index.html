@@ -25,8 +25,12 @@ button{cursor:pointer}
 @media(min-width:520px){body{padding:24px 0;background:light-dark(#f3e9ee,#0e0b10)}.app{min-height:860px;border-radius:36px;background:var(--bg);box-shadow:0 20px 60px #0002;overflow:hidden}}
 header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);padding:calc(10px + env(safe-area-inset-top)) 16px 10px}
 .brand{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.brand .rt{display:flex;align-items:center;gap:6px}.gear{width:44px;height:44px;border:0;border-radius:50%;background:none;display:grid;place-items:center;color:var(--sub)}
+.sw{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);width:100%;border-left:0;border-right:0;border-top:0;background:none;text-align:left}.sw:last-child{border-bottom:0}.sw b{display:block;font-size:16px;color:var(--ink)}.sw span{font-size:13px;color:var(--sub)}
+.sw i{flex:none;width:52px;height:32px;border-radius:99px;background:var(--line);position:relative;transition:background .2s}.sw i::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0003;transition:transform .2s}.sw[aria-checked=true] i{background:var(--oshi)}.sw[aria-checked=true] i::after{transform:translateX(20px)}.sw:disabled{opacity:.45}
+.hidden-note{font-size:14px;color:var(--sub);text-align:center}
 .brand b{font-size:22px;font-weight:900;letter-spacing:.01em}.brand b i{font-style:normal;color:var(--oshi)}
-.demo{font-size:13px;color:var(--sub)}
+.demo{font-size:12px;color:var(--sub);text-align:right;line-height:1.3}
 .oshis{display:flex;gap:8px;overflow-x:auto;padding:2px;scrollbar-width:none}
 .chip{flex:none;display:flex;align-items:center;gap:6px;min-height:40px;padding:4px 14px 4px 4px;border-radius:999px;border:2px solid var(--line);background:var(--card);font-weight:700;font-size:15px}
 .chip .dot{width:30px;height:30px;border-radius:50%;background:var(--c);display:grid;place-items:center;color:#fff;font-size:14px}
@@ -66,7 +70,7 @@ h2 small{font-size:13px;color:var(--sub);font-weight:500}
 .wmid .line{font-size:13px;background:#ffffff26;border-radius:10px;padding:6px 10px}
 .cap{font-size:13px;color:var(--sub);margin:8px 2px 0}
 /* 現場一覧 */
-.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--line);border-radius:999px;padding:4px;margin:8px 0 4px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);background:var(--line);border-radius:999px;padding:4px;margin:8px 0 4px}
 .seg button{border:0;background:none;min-height:40px;border-radius:999px;font-weight:700;color:var(--sub)}
 .seg button.on{background:var(--card);color:var(--ink);box-shadow:0 2px 6px #0001}
 .month{font-size:14px;color:var(--sub);font-weight:700;margin:18px 4px 8px}
@@ -137,12 +141,46 @@ textarea{width:100%;min-height:90px;border-radius:14px;border:2px solid var(--li
 .lose-t{border:0;background:none;color:var(--sub);text-decoration:underline;font-size:14px;min-height:40px;padding:0}
 .toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;z-index:20;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
+/* 落選・見送り */
+.off{filter:grayscale(1);opacity:.55}
+.st.lose{background:none;color:var(--sub);border:1.5px dashed var(--sub);padding:1.5px 8.5px}
+.dots i.off,.legend i.off{background:var(--sub);opacity:.5}
+.outs{display:flex;gap:20px}
+/* 注意・折りたたみ */
+.warn{display:flex;gap:10px;align-items:flex-start;margin:10px 0;padding:10px 12px;border-radius:14px;font-size:14px;line-height:1.5;background:light-dark(#fff1d1,#3b2f14);color:light-dark(#6b4a00,#ffdc8a)}
+.warn b{flex:none;width:22px;height:22px;border-radius:50%;background:light-dark(#e8a200,#ffc940);color:light-dark(#fff,#2a2000);display:grid;place-items:center;font-size:14px;font-weight:900}
+.more summary{list-style:none;cursor:pointer;min-height:44px;display:flex;align-items:center;gap:8px;font-weight:700;color:var(--oshi);font-size:15px}
+.more summary::-webkit-details-marker{display:none}
+.more summary::before{content:"＋";flex:none;width:22px;height:22px;border-radius:50%;background:color-mix(in srgb,var(--oshi) 14%,var(--card));display:grid;place-items:center;font-size:13px}
+.more[open] summary::before{content:"－"}
+.more summary small{font-weight:500;color:var(--sub);font-size:13px}
+.acts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-top:10px}
+/* お金の行・立替 */
+.cr{padding:8px 0;border-bottom:1px solid var(--line)}
+.crh{display:flex;justify-content:space-between;gap:10px;font-size:15px}.crh b{font-variant-numeric:tabular-nums;white-space:nowrap}.crh small{margin-left:8px;font-size:12px;color:var(--sub)}
+.crs{display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:13px;color:var(--sub)}
+.mchk{border:0;background:none;display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--sub);min-height:40px;padding:0}
+.mchk::before{content:"";flex:none;width:20px;height:20px;border-radius:6px;border:2px solid var(--c,var(--oshi));display:grid;place-items:center;font-size:12px;color:#fff;line-height:1}
+.mchk.on{color:var(--ink)}.mchk.on::before{content:"✓";background:var(--c,var(--oshi))}
+/* セトリ */
+ul.set{list-style:none;margin:0;padding:0;font-size:15px}
+ul.set li{display:flex;align-items:baseline;gap:8px;padding:3px 0}
+ul.set .no{flex:none;width:1.4em;text-align:right;color:var(--sub);font-size:13px;font-variant-numeric:tabular-nums}
+ul.set .tg{flex:none;font-size:11px;font-weight:700;padding:0 7px;border-radius:999px;line-height:1.8;background:color-mix(in srgb,var(--c) 16%,var(--card));color:var(--c)}
+ul.set li.mc{color:var(--sub)}ul.set li.mc .tg{background:var(--line);color:var(--sub)}
+/* 写真・アルバム */
+.vh{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+label.ph.add{cursor:pointer}.ph.add:focus-within{outline:3px solid var(--oshi);outline-offset:2px}
+.ph.img{background:var(--line)}.ph.img::before,.ph.img::after{display:none}.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.albh{display:flex;align-items:baseline;gap:8px;width:100%;border:0;background:none;text-align:left;padding:16px 2px 8px;min-height:44px}
+.albh b{flex:none;color:var(--c);font-size:14px}.albh span{flex:1;font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.albh small{flex:none;color:var(--sub);font-size:13px}
+.bk{margin:4px 0 0;font-size:15px}.bk b{font-weight:700}
 </style>
 </head>
 <body>
 <div class="app">
   <header>
-    <div class="brand"><b>oshi<i>case</i></b><span class="demo">デモ・架空のデータ／今日は2026/11/27</span></div>
+    <div class="brand"><b>oshi<i>case</i></b><span class="rt"><span class="demo">デモ・架空のデータ<br>今日は2026/11/27</span><button class="gear" data-set aria-label="設定"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></button></span></div>
     <div class="oshis" id="oshis"></div>
   </header>
   <main id="view"></main>
@@ -160,21 +198,29 @@ textarea{width:100%;min-height:90px;border-radius:14px;border:2px solid var(--li
 {
 const TODAY=new Date(2026,10,27);
 const STEPS=['検討中','申込済','当選','入金済','発券済','参戦済'];
+const DLK=['申込締切','当落発表','入金締切','発券開始','分配開始','FC更新','グッズ受注','その他'];
+const CK=['チケット','手数料','交通','宿泊','グッズ','その他'];
 const OSHI=[
  {id:'hinata',name:'ひなた',group:'STELLA NOTE',color:'#ff4f86',since:'2022-03-14',bday:'01-09'},
  {id:'rei',name:'レイ',group:'Blue Hour',color:'#3b7bff',since:'2024-07-20',bday:'04-02'},
  {id:'sora',name:'そら',group:'VTuber',color:'#f58a07',since:'2025-02-01',bday:'12-18'}];
+// out: 'lose'=落選 / 'skip'=見送り。cost: v=払った額, n=何人分, lend=うち立替, back=回収済み
 let EV=[
- {id:1,o:'hinata',title:'STELLA NOTE 冬ツアー 横浜公演',date:'2026-12-12',time:'17:00',venue:'Kアリーナ横浜',st:3,seat:'未定（発券待ち）',with:'みき',dl:[{l:'電子チケット 分配',at:'2026-12-05T10:00',done:false},{l:'入金',at:'2026-11-20T23:59',done:true}],cost:{チケット:9800,交通:2400},set:[],memo:'',stars:0},
- {id:2,o:'rei',title:'Blue Hour ファンミーティング',date:'2026-12-20',time:'15:00',venue:'大阪城ホール',st:1,seat:'',with:'',dl:[{l:'当落発表',at:'2026-11-30T18:00',done:false},{l:'入金締切（当選したら）',at:'2026-12-03T23:59',done:false}],cost:{チケット:8800},set:[],memo:'遠征。新幹線はまだ取らない',stars:0},
- {id:3,o:'sora',title:'そら 誕生日3D配信',date:'2026-12-18',time:'21:00',venue:'YouTube（メン限）',st:0,seat:'',with:'',dl:[{l:'誕生日グッズ 受注締切',at:'2026-12-10T23:59',done:false}],cost:{グッズ:0},set:[],memo:'',stars:0},
- {id:4,o:'hinata',title:'STELLA NOTE 春ツアー 東京ドーム',date:'2027-03-21',time:'17:00',venue:'東京ドーム',st:0,seat:'',with:'',dl:[{l:'FC2次先行 申込締切',at:'2026-11-28T23:59',done:false}],cost:{},set:[],memo:'',stars:0},
- {id:5,o:'hinata',title:'STELLA NOTE 夏フェス出演',date:'2026-08-09',time:'13:30',venue:'幕張メッセ',st:5,seat:'Aブロック 前方',with:'みき',dl:[],cost:{チケット:12000,交通:3200,グッズ:8600},set:['Starlight Letter','夏のプリズム','ハミングバード','アンコール：Note to you'],memo:'1曲目のイントロで泣いた。うちわ見てもらえた気がする',stars:5,ph:4},
- {id:6,o:'rei',title:'Blue Hour リリースイベント',date:'2026-10-04',time:'14:00',venue:'ららぽーと豊洲',st:5,seat:'自由',with:'',dl:[],cost:{交通:1100,グッズ:5500},set:['夜明けのブルー','Moonwalk'],memo:'特典会で名前を呼んでくれた',stars:4,ph:2},
- {id:7,o:'hinata',title:'STELLA NOTE 秋ツアー 名古屋',date:'2026-10-25',time:'17:00',venue:'日本ガイシホール',st:1,lose:true,seat:'',with:'',dl:[],cost:{},set:[],memo:'全滅……',stars:0},
- {id:8,o:'hinata',title:'STELLA NOTE ワンマン',date:'2026-05-17',time:'18:00',venue:'Zepp Haneda',st:5,seat:'1階 整理番号 A312',with:'',dl:[],cost:{チケット:7700,交通:900,グッズ:12400},set:['Starlight Letter','ハミングバード','雨上がりの約束'],memo:'',stars:5,ph:3},
- {id:9,o:'rei',title:'Blue Hour 夏ツアー 大阪',date:'2026-07-12',time:'17:00',venue:'グランキューブ大阪',st:5,seat:'2階 3列',with:'さき',dl:[],cost:{チケット:9500,交通:28600,宿泊:9800,グッズ:6000},set:['夜明けのブルー','Moonwalk','Blue Hour'],memo:'初遠征。たこ焼きもおいしかった',stars:5,ph:3}];
-let cur='all',tab='home',seg='up',calM=new Date(2026,11,1),selD=null,nid=10;
+ {id:1,o:'hinata',title:'STELLA NOTE 冬ツアー 横浜公演',date:'2026-12-12',time:'17:00',venue:'Kアリーナ横浜',st:3,seat:'未定（発券待ち）',with:'みき',nm:'自分（FC会員）',via:'FC1次先行',ntf:'FCサイトのマイページ',dl:[{l:'入金締切',at:'2026-11-20T23:59',done:true},{l:'分配開始',at:'2026-12-05T10:00',done:false}],cost:[{k:'チケット',v:19600,n:2,lend:9800,back:false},{k:'手数料',v:1100},{k:'交通',v:2400}],set:[],memo:'',stars:0},
+ {id:2,o:'rei',title:'Blue Hour ファンミーティング',date:'2026-12-20',time:'15:00',venue:'大阪城ホール',st:1,seat:'',with:'',nm:'自分',via:'プレイガイド先行',ntf:'メール',dl:[{l:'当落発表',at:'2026-11-30T18:00',done:false},{l:'入金締切',at:'2026-12-03T23:59',done:false}],cost:[{k:'チケット',v:8800}],set:[],memo:'遠征。新幹線はまだ取らない',stars:0},
+ {id:3,o:'sora',title:'そら 誕生日3D配信',date:'2026-12-18',time:'21:00',venue:'YouTube（メン限）',st:0,seat:'',with:'',dl:[{l:'グッズ受注',at:'2026-12-10T23:59',done:false}],cost:[],set:[],memo:'',stars:0},
+ {id:4,o:'hinata',title:'STELLA NOTE 春ツアー 東京ドーム',date:'2027-03-21',time:'17:00',venue:'東京ドーム',st:0,seat:'',with:'',via:'FC2次先行',dl:[{l:'申込締切',at:'2026-11-28T23:59',done:false},{l:'FC更新',at:'2026-12-15T23:59',done:false}],cost:[],set:[],memo:'',stars:0},
+ {id:5,o:'hinata',title:'STELLA NOTE 夏フェス出演',date:'2026-08-09',time:'13:30',venue:'幕張メッセ',st:5,seat:'Aブロック 前方',with:'みき',nm:'みき名義',via:'公式先行',ntf:'みきから連絡',dl:[],cost:[{k:'チケット',v:24000,n:2,lend:12000,back:true},{k:'交通',v:3200},{k:'グッズ',v:8600}],set:['Starlight Letter','夏のプリズム','MC','メドレー：ハミングバード〜夏の扉','アンコール：Note to you'],memo:'1曲目のイントロで泣いた。うちわ見てもらえた気がする',stars:5,ph:4},
+ {id:6,o:'rei',title:'Blue Hour リリースイベント',date:'2026-10-04',time:'14:00',venue:'ららぽーと豊洲',st:5,seat:'自由',with:'',dl:[],cost:[{k:'交通',v:1100},{k:'グッズ',v:5500}],set:['夜明けのブルー','Moonwalk'],memo:'特典会で名前を呼んでくれた',stars:4,ph:2},
+ {id:7,o:'hinata',title:'STELLA NOTE 秋ツアー 名古屋',date:'2026-10-25',time:'17:00',venue:'日本ガイシホール',st:1,out:'lose',seat:'',with:'',nm:'自分',via:'FC先行',ntf:'メール',dl:[],cost:[],set:[],memo:'全滅……',stars:0},
+ {id:8,o:'hinata',title:'STELLA NOTE ワンマン',date:'2026-05-17',time:'18:00',venue:'Zepp Haneda',st:5,seat:'1階 整理番号 A312',with:'',dl:[],cost:[{k:'チケット',v:7700},{k:'交通',v:900},{k:'グッズ',v:12400}],set:['Starlight Letter','ハミングバード','MC','雨上がりの約束','EN：Note to you'],memo:'',stars:5,ph:3},
+ {id:9,o:'rei',title:'Blue Hour 夏ツアー 大阪',date:'2026-07-12',time:'17:00',venue:'グランキューブ大阪',st:5,seat:'2階 3列',with:'さき',dl:[],cost:[{k:'チケット',v:9500},{k:'交通',v:28600},{k:'宿泊',v:19600,n:2,lend:9800,back:false},{k:'グッズ',v:6000}],set:['夜明けのブルー','Moonwalk','Blue Hour'],memo:'初遠征。たこ焼きもおいしかった',stars:5,ph:3},
+ {id:10,o:'hinata',title:'STELLA NOTE 冬ツアー 福岡公演',date:'2026-12-26',time:'17:00',venue:'マリンメッセ福岡',st:1,out:'lose',seat:'',with:'',nm:'自分（FC会員）',via:'FC1次先行',ntf:'FCサイトのマイページ',dl:[{l:'当落発表',at:'2026-11-25T18:00',done:true},{l:'入金締切',at:'2026-11-29T23:59',done:false}],cost:[],set:[],memo:'FC1次は落選。一般でもう一回',stars:0},
+ {id:11,o:'sora',title:'そら オフラインミート',date:'2026-12-12',time:'18:00',venue:'秋葉原のイベントスペース',st:0,seat:'',with:'',dl:[{l:'申込締切',at:'2026-12-01T23:59',done:false}],cost:[],set:[],memo:'',stars:0},
+ {id:12,o:'rei',title:'Blue Hour 年末フェス出演',date:'2026-12-30',time:'12:00',venue:'幕張メッセ',st:0,out:'skip',seat:'',with:'',dl:[],cost:[],set:[],memo:'年末は実家。今回は見送り',stars:0}];
+let SET={money:true,shareMoney:false,day1:false};try{Object.assign(SET,JSON.parse(localStorage.getItem('oshicase-set')||'{}'))}catch(_){}
+const saveSet=()=>{try{localStorage.setItem('oshicase-set',JSON.stringify(SET))}catch(_){}};
+let cur='all',tab='home',seg='up',calM=new Date(2026,11,1),selD=null,nid=13,bk='今日 9:12';
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const O=id=>OSHI.find(o=>o.id===id);
@@ -183,91 +229,154 @@ const days=s=>Math.round((dt(s)-TODAY)/864e5);
 const yen=n=>'¥'+n.toLocaleString('ja-JP');
 const wk='日月火水木金土';
 const md=s=>{const d=dt(s);return `${d.getMonth()+1}/${d.getDate()}(${wk[d.getDay()]})`};
-const sum=e=>Object.values(e.cost).reduce((a,b)=>a+b,0);
+const own=r=>r.v-(r.lend||0);
+const sum=e=>e.cost.reduce((a,r)=>a+own(r),0);
 const vis=()=>EV.filter(e=>cur==='all'||e.o===cur);
-const stName=e=>e.lose?'落選':STEPS[e.st];
+const stName=e=>e.out==='lose'?'落選':e.out==='skip'?'見送り':STEPS[e.st];
+const mins=t=>Number(t.slice(0,2))*60+Number(t.slice(3,5));
+const nPh=e=>(e.ph||0)+(e.photos||[]).length;
+const CLOSE='<button class="icon" data-close aria-label="閉じる"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>';
 function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),1800)}
 function setColor(){document.documentElement.style.setProperty('--oshi',cur==='all'?'#ff4f86':O(cur).color)}
 function renderOshis(){
  $('#oshis').innerHTML=[{id:'all',name:'すべて',color:'#2a2129'}].concat(OSHI).map(o=>`<button class="chip ${cur===o.id?'on':''}" data-o="${o.id}" style="--c:${o.id==='all'?'var(--oshi)':o.color}"><span class="dot">${o.id==='all'?'★':esc(o.name[0])}</span>${esc(o.name)}</button>`).join('')}
+// 同じ日の開演が3時間以内で、申込済以上の現場をダブりとみなす
+function clash(date,time,id){if(!date)return[];return EV.filter(x=>x.id!==id&&!x.out&&x.st>=1&&x.date===date&&(!time||!x.time||Math.abs(mins(time)-mins(x.time))<180))}
+function warnHtml(cs){if(!cs.length)return'';const x=cs[0];return `<div class="warn" role="status"><b>!</b><span>同じ日時に「${esc(x.title)}」${x.time?`（${x.time}）`:''}も${x.st>=2?'当選しています':'申込済みです'}${cs.length>1?`（ほか${cs.length-1}件）`:''}</span></div>`}
 function todos(){
- const r=[];vis().forEach(e=>e.dl.forEach((d,i)=>{if(!e.lose)r.push({e,d,i})}));
- return r.filter(x=>!x.d.done||days(x.d.at)>=-3).sort((a,b)=>a.d.done-b.d.done||a.d.at.localeCompare(b.d.at))}
+ const r=[];vis().forEach(e=>e.dl.forEach((d,i)=>r.push({e,d,i,off:!!e.out})));
+ return r.filter(x=>x.off?!x.d.done&&days(x.d.at)>=0:!x.d.done||days(x.d.at)>=-3).sort((a,b)=>a.d.done-b.d.done||a.d.at.localeCompare(b.d.at))}
+function lends(list){const r=[];list.forEach(e=>{if(!e.out)e.cost.forEach((c,i)=>{if(c.lend&&!c.back)r.push({e,c,i})})});return r}
 function whenTxt(at){const n=days(at),t=at.slice(11,16);return n===0?`今日 ${t}`:n===1?`あした ${t}`:n<0?'済':`あと${n}日`}
+function todoRow({e,d,i,off}){const c=O(e.o).color,n=days(d.at);
+ if(off)return `<div class="todo off" style="--c:${c}"><span class="chk" aria-hidden="true"></span><div class="x"><b>${esc(d.l)}</b><span>${esc(e.title)}</span></div><span class="when">${stName(e)}・不要</span></div>`;
+ return `<div class="todo ${d.done?'done':''}" style="--c:${c}"><button class="chk ${d.done?'on':''}" data-dl="${e.id}:${i}" aria-label="済みにする"></button><div class="x"><b>${esc(d.l)}</b><span>${esc(e.title)}</span></div><span class="when ${!d.done&&n<=1?'urgent':''}">${d.done?'済':whenTxt(d.at)}</span></div>`}
+function backRow({e,c,i}){return `<div class="todo" style="--c:${O(e.o).color}"><button class="chk" data-back="${e.id}:${i}" aria-label="回収済みにする"></button><div class="x"><b>立替の回収${e.with?`（${esc(e.with)}）`:''}</b><span>${esc(c.k)}・${esc(e.title)}</span></div><span class="when">${yen(c.lend)}</span></div>`}
 function home(){
- const up=vis().filter(e=>days(e.date)>=0&&!e.lose&&e.st>=2).sort((a,b)=>a.date.localeCompare(b.date));
- const nx=up[0]||vis().filter(e=>days(e.date)>=0&&!e.lose).sort((a,b)=>a.date.localeCompare(b.date))[0];
+ const up=vis().filter(e=>days(e.date)>=0&&!e.out&&e.st>=2).sort((a,b)=>a.date.localeCompare(b.date));
+ const nx=up[0]||vis().filter(e=>days(e.date)>=0&&!e.out).sort((a,b)=>a.date.localeCompare(b.date))[0];
  const tk=nx?`<button class="ticket" data-ev="${nx.id}" style="--oshi:${O(nx.o).color}"><div class="glow"></div><div class="l"><div class="k">次の現場 ・ <span class="badge">${stName(nx)}</span></div><div class="t">${esc(nx.title)}</div><div class="m">${md(nx.date)} ${nx.time} 開演<br>${esc(nx.venue)}</div></div><div class="r"><div><div class="u">あと</div><div class="n">${days(nx.date)}</div><div class="u">日</div></div></div></button>`:`<div class="card empty">これからの現場はまだありません</div>`;
- const td=todos().slice(0,5).map(({e,d,i})=>{const c=O(e.o).color,n=days(d.at);return `<div class="todo ${d.done?'done':''}" style="--c:${c}"><button class="chk ${d.done?'on':''}" data-dl="${e.id}:${i}" aria-label="済みにする"></button><div class="x"><b>${esc(d.l)}</b><span>${esc(e.title)}</span></div><span class="when ${!d.done&&n<=1?'urgent':''}">${d.done?'済':whenTxt(d.at)}</span></div>`}).join('')||'<div class="empty">やることはありません</div>';
+ const all=todos(),act=all.filter(x=>!x.off);
+ const td=act.slice(0,5).map(todoRow).join('')+(SET.money?lends(vis()).map(backRow).join(''):'')+all.filter(x=>x.off).map(todoRow).join('')||'<div class="empty">やることはありません</div>';
  const os=cur==='all'?OSHI:[O(cur)];
- const ann=os.map(o=>{const by=dt(`2026-${o.bday}`);if(by<TODAY)by.setFullYear(2027);const bd=Math.round((by-TODAY)/864e5);const sd=-days(o.since);
-  return `<div class="wid" style="--c:${o.color}"><div class="s">${esc(o.name)}を推して</div><div class="big">${sd.toLocaleString()}<small>日</small></div><div class="s">${o.since.replaceAll('-','.')}〜</div></div><div class="wid lt" style="--c:${o.color}"><div class="s">${esc(o.name)}の誕生日まで</div><div class="big">${bd}<small>日</small></div><div class="s">${Number(o.bday.slice(0,2))}月${Number(o.bday.slice(3))}日</div></div>`}).join('');
- const mid=nx?`<div class="wid wmid" style="--c:${O(nx.o).color}"><div style="text-align:center;flex:none;width:34%"><div class="s">次の現場まで</div><div class="big">${days(nx.date)}<small>日</small></div><div class="s">${md(nx.date)}</div></div><div class="col">${todos().filter(x=>!x.d.done).slice(0,3).map(x=>`<div class="line">${esc(x.d.l)} ・ ${whenTxt(x.d.at)}</div>`).join('')}</div></div>`:'';
+ const ann=os.map(o=>{const by=dt(`2026-${o.bday}`);if(by<TODAY)by.setFullYear(2027);const bd=Math.round((by-TODAY)/864e5);const sd=-days(o.since)+(SET.day1?1:0);
+  return `<div class="wid" style="--c:${o.color}"><div class="s">${esc(o.name)}を推して</div><div class="big">${sd.toLocaleString()}<small>日${SET.day1?'目':''}</small></div><div class="s">${o.since.replaceAll('-','.')}〜</div></div><div class="wid lt" style="--c:${o.color}"><div class="s">${esc(o.name)}の誕生日まで</div><div class="big">${bd}<small>日</small></div><div class="s">${Number(o.bday.slice(0,2))}月${Number(o.bday.slice(3))}日</div></div>`}).join('');
+ const mid=nx?`<div class="wid wmid" style="--c:${O(nx.o).color}"><div style="text-align:center;flex:none;width:34%"><div class="s">次の現場まで</div><div class="big">${days(nx.date)}<small>日</small></div><div class="s">${md(nx.date)}</div></div><div class="col">${act.filter(x=>!x.d.done).slice(0,3).map(x=>`<div class="line">${esc(x.d.l)} ・ ${whenTxt(x.d.at)}</div>`).join('')}</div></div>`:'';
  return `${tk}<h2>やること<small>締切が近い順</small></h2><div class="card">${td}</div><h2>記念日<small>ウィジェットにもなります</small></h2><div class="grid2">${ann}</div><h2>ホーム画面のウィジェット<small>中サイズ</small></h2>${mid}<p class="cap">ホーム画面に置くと、毎日カウントダウンが見られます。</p>`}
-function evRow(e){const d=dt(e.date),c=O(e.o).color;return `<button class="card ev" data-ev="${e.id}" style="--c:${c}"><div class="d"><b>${d.getDate()}</b><span>${wk[d.getDay()]}曜</span></div><div><div class="t">${esc(e.title)}</div><div class="v">${esc(e.venue)}${sum(e)?' ・ '+yen(sum(e)):''}</div></div><span class="st ${e.lose?'lose':''}">${stName(e)}</span></button>`}
+function evRow(e){const d=dt(e.date),c=O(e.o).color;return `<button class="card ev ${e.out?'off':''}" data-ev="${e.id}" style="--c:${c}"><div class="d"><b>${d.getDate()}</b><span>${wk[d.getDay()]}曜</span></div><div><div class="t">${esc(e.title)}</div><div class="v">${esc(e.venue)}${SET.money&&sum(e)?' ・ '+yen(sum(e)):''}</div></div><span class="st ${e.out?'lose':''}">${stName(e)}</span></button>`}
+function phTiles(e){return Array.from({length:e.ph||0},()=>'<div class="ph"></div>').join('')+(e.photos||[]).map(u=>`<div class="ph img"><img src="${esc(u)}" alt=""></div>`).join('')}
+function album(){
+ const a=vis().filter(nPh).sort((x,y)=>y.date.localeCompare(x.date)),tot=a.reduce((s,e)=>s+nPh(e),0);
+ return a.length?`<p class="cap">${tot}枚・新しい順。写真は行った現場のカードから追加できます</p>`+a.map(e=>`<button class="albh" data-ev="${e.id}" style="--c:${O(e.o).color}"><b>${e.date.slice(0,4)}/${md(e.date)}</b><span>${esc(e.title)}</span><small>${nPh(e)}枚</small></button><div class="photos" style="--c:${O(e.o).color}">${phTiles(e)}</div>`).join(''):'<div class="empty">まだ写真がありません。行った現場のカードから追加できます</div>'}
 function list(){
+ const sg=`<div class="seg"><button data-seg="up" class="${seg==='up'?'on':''}">これから</button><button data-seg="past" class="${seg==='past'?'on':''}">終わった</button><button data-seg="album" class="${seg==='album'?'on':''}">アルバム</button></div>`;
+ if(seg==='album')return sg+album();
  let a=vis().filter(e=>seg==='up'?days(e.date)>=0:days(e.date)<0).sort((x,y)=>seg==='up'?x.date.localeCompare(y.date):y.date.localeCompare(x.date));
  let h='',m='';a.forEach(e=>{const k=e.date.slice(0,7);if(k!==m){m=k;h+=`<div class="month">${k.slice(0,4)}年${Number(k.slice(5))}月</div>`}h+=evRow(e)});
- return `<div class="seg"><button data-seg="up" class="${seg==='up'?'on':''}">これから</button><button data-seg="past" class="${seg==='past'?'on':''}">行った・終わった</button></div>${h||'<div class="empty">まだありません。下の＋から追加できます</div>'}`}
+ return sg+(h||'<div class="empty">まだありません。下の＋から追加できます</div>')}
 function cal(){
  const y=calM.getFullYear(),m=calM.getMonth(),f=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate();
  const key=d=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+ const dlsOn=k=>{const r=[];vis().forEach(e=>e.dl.forEach(x=>{if(x.at.slice(0,10)===k)r.push({e,x})}));return r};
  let c=wk.split('').map(w=>`<div class="w">${w}</div>`).join('');
  for(let i=0;i<f;i++)c+='<div class="day out"></div>';
- for(let d=1;d<=n;d++){const k=key(d);const evs=vis().filter(e=>e.date===k&&!e.lose);const dls=[];vis().forEach(e=>e.dl.forEach(x=>{if(x.at.slice(0,10)===k&&!e.lose)dls.push(e)}));
+ for(let d=1;d<=n;d++){const k=key(d);const evs=vis().filter(e=>e.date===k);
   const isT=y===2026&&m===10&&d===27;
-  c+=`<button class="day ${isT?'today':''} ${selD===k?'sel':''}" data-day="${k}">${d}<span class="dots">${evs.map(e=>`<i style="--c:${O(e.o).color}"></i>`).join('')}${dls.map(e=>`<i class="dl" style="--c:${O(e.o).color}"></i>`).join('')}</span></button>`}
- let det='';if(selD){const evs=vis().filter(e=>e.date===selD);const dls=[];vis().forEach(e=>e.dl.forEach(x=>{if(x.at.slice(0,10)===selD)dls.push({e,x})}));
-  det=`<h2>${md(selD)}</h2>`+(evs.map(evRow).join('')+dls.map(({e,x})=>`<button class="card ev" data-ev="${e.id}" style="--c:${O(e.o).color}"><div class="d"><b style="font-size:15px">${x.at.slice(11,16)}</b><span>締切</span></div><div><div class="t">${esc(x.l)}</div><div class="v">${esc(e.title)}</div></div><span class="st">${x.done?'済':'締切'}</span></button>`).join('')||'<div class="card empty">この日の予定はありません</div>')}
- return `<div class="calh"><button class="icon" data-mon="-1" aria-label="前の月"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 5l-7 7 7 7"/></svg></button><b>${y}年${m+1}月</b><button class="icon" data-mon="1" aria-label="次の月"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7"/></svg></button></div><div class="cal">${c}</div><div class="legend"><span><i></i>現場</span><span><i class="dl"></i>締切</span></div>${det}`}
+  c+=`<button class="day ${isT?'today':''} ${selD===k?'sel':''}" data-day="${k}">${d}<span class="dots">${evs.map(e=>`<i class="${e.out?'off':''}" style="--c:${O(e.o).color}"></i>`).join('')}${dlsOn(k).map(({e})=>`<i class="dl ${e.out?'off':''}" style="--c:${O(e.o).color}"></i>`).join('')}</span></button>`}
+ let det='';if(selD){const evs=vis().filter(e=>e.date===selD);
+  det=`<h2>${md(selD)}</h2>`+(evs.map(evRow).join('')+dlsOn(selD).map(({e,x})=>`<button class="card ev ${e.out?'off':''}" data-ev="${e.id}" style="--c:${O(e.o).color}"><div class="d"><b style="font-size:15px">${x.at.slice(11,16)}</b><span>締切</span></div><div><div class="t">${esc(x.l)}</div><div class="v">${esc(e.title)}</div></div><span class="st ${e.out?'lose':''}">${e.out?stName(e):x.done?'済':'締切'}</span></button>`).join('')||'<div class="card empty">この日の予定はありません</div>')}
+ return `<div class="calh"><button class="icon" data-mon="-1" aria-label="前の月"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 5l-7 7 7 7"/></svg></button><b>${y}年${m+1}月</b><button class="icon" data-mon="1" aria-label="次の月"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7"/></svg></button></div><div class="cal">${c}</div><div class="legend"><span><i></i>現場</span><span><i class="dl"></i>締切</span><span><i class="off"></i>落選・見送り</span></div>${det}`}
 function summary(){
- const y=vis().filter(e=>e.date.startsWith('2026'));const went=y.filter(e=>e.st===5);
- const applied=y.filter(e=>e.lose||e.st>=2).length,won=y.filter(e=>!e.lose&&e.st>=2).length;
+ const y=vis().filter(e=>e.date.startsWith('2026'));const went=y.filter(e=>e.st===5&&!e.out);
+ const applied=y.filter(e=>e.out==='lose'||!e.out&&e.st>=2).length,won=y.filter(e=>!e.out&&e.st>=2).length;
  const rate=applied?Math.round(won/applied*100):0;const tot=y.reduce((a,e)=>a+sum(e),0);
- const cats={};y.forEach(e=>Object.entries(e.cost).forEach(([k,v])=>cats[k]=(cats[k]||0)+v));
+ const cats={};y.forEach(e=>e.cost.forEach(r=>cats[r.k]=(cats[r.k]||0)+own(r)));
  const mx=Math.max(1,...Object.values(cats));
- const cb=Object.entries(cats).filter(x=>x[1]).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="bar"><div class="lab"><span>${k}</span><span>${yen(v)}</span></div><div class="tr"><div class="fl" style="width:${v/mx*100}%"></div></div></div>`).join('');
+ const cb=Object.entries(cats).filter(x=>x[1]).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="bar"><div class="lab"><span>${esc(k)}</span><span>${yen(v)}</span></div><div class="tr"><div class="fl" style="width:${v/mx*100}%"></div></div></div>`).join('');
  const ob=cur==='all'?`<h2>推しごと</h2><div class="card">${OSHI.map(o=>{const v=y.filter(e=>e.o===o.id).reduce((a,e)=>a+sum(e),0);return `<div class="bar" style="--c:${o.color}"><div class="lab"><span>${esc(o.name)}</span><span>${yen(v)}</span></div><div class="tr"><div class="fl" style="width:${tot?v/tot*100:0}%"></div></div></div>`}).join('')}</div>`:'';
+ const ls=lends(vis()),lt=ls.reduce((a,x)=>a+x.c.lend,0);
+ const lb=`<h2>立て替え中<small>未回収 ${yen(lt)}</small></h2><div class="card">${ls.map(backRow).join('')||'<div class="empty">未回収はありません</div>'}</div>`;
  const vc={};went.forEach(e=>vc[e.venue]=(vc[e.venue]||0)+1);const topV=Object.entries(vc).sort((a,b)=>b[1]-a[1])[0];
- const budget=200000;const usedM=y.filter(e=>e.date.startsWith('2026-12')).reduce((a,e)=>a+sum(e),0);
+ const budget=200000;const usedM=y.filter(e=>e.date.startsWith('2026-12')&&!e.out).reduce((a,e)=>a+sum(e),0);
  const name=cur==='all'?'わたし':esc(O(cur).name)+'担';
- return `<h2>2026年<small>1月〜今日まで</small></h2><div class="stats"><div class="card stat"><b>${went.length}</b><span>行った現場</span></div><div class="card stat"><b>${rate}%</b><span>当選率</span></div><div class="card stat"><b>${(tot/10000).toFixed(1)}万</b><span>使ったお金</span></div></div>
- <h2>12月の予算<small>${yen(budget)}</small></h2><div class="card budget"><div class="bar"><div class="lab"><span>予定に入っている分</span><span>${yen(usedM)}</span></div><div class="tr"><div class="fl" style="width:${Math.min(100,usedM/budget*100)}%"></div></div></div><p class="cap" style="margin:6px 0 0">あと ${yen(Math.max(0,budget-usedM))} 使えます</p></div>
- <h2>費目ごと</h2><div class="card">${cb||'<div class="empty">まだ記録がありません</div>'}</div>${ob}
- <h2>1年のまとめ画像<small>SNSにシェア</small></h2><div class="share"><div class="ring"></div><div class="yr">2026年の推し活</div><h3>${name}の1年</h3><div class="row"><span>行った現場</span><b>${went.length}回</b></div><div class="row"><span>当選率</span><b>${rate}%</b></div><div class="row"><span>いちばん行った会場</span><b style="font-size:16px">${topV?esc(topV[0]):'—'}</b></div><div class="row"><span>推しに使ったお金</span><b>${yen(tot)}</b></div><div class="foot"><span>#oshicase</span><span>oshicase</span></div></div><button class="btn" data-share>画像を保存する</button>`}
+ return `<h2>2026年<small>1月〜今日まで</small></h2><div class="stats"><div class="card stat"><b>${went.length}</b><span>行った現場</span></div><div class="card stat"><b>${rate}%</b><span>当選率</span></div>${SET.money?`<div class="card stat"><b>${(tot/10000).toFixed(1)}万</b><span>使ったお金</span></div>`:`<div class="card stat"><b>${Object.keys(vc).length}</b><span>行った会場</span></div>`}</div>
+ ${SET.money?`<p class="cap">お金は自己負担の分だけ。立て替えた分は入りません</p><h2>12月の予算<small>${yen(budget)}</small></h2><div class="card budget"><div class="bar"><div class="lab"><span>予定に入っている分</span><span>${yen(usedM)}</span></div><div class="tr"><div class="fl" style="width:${Math.min(100,usedM/budget*100)}%"></div></div></div><p class="cap" style="margin:6px 0 0">あと ${yen(Math.max(0,budget-usedM))} 使えます</p></div>
+ ${lb}<h2>費目ごと</h2><div class="card">${cb||'<div class="empty">まだ記録がありません</div>'}</div>${ob}`:`<h2>お金</h2><div class="card hidden-note">金額は表示しない設定になっています<button class="btn ghost" data-set>設定をひらく</button></div>`}
+ <h2>1年のまとめ画像<small>SNSにシェア</small></h2><div class="share"><div class="ring"></div><div class="yr">2026年の推し活</div><h3>${name}の1年</h3><div class="row"><span>行った現場</span><b>${went.length}回</b></div><div class="row"><span>当選率</span><b>${rate}%</b></div><div class="row"><span>いちばん行った会場</span><b style="font-size:16px">${topV?esc(topV[0]):'—'}</b></div>${SET.money&&SET.shareMoney?`<div class="row"><span>推しに使ったお金</span><b>${yen(tot)}</b></div>`:`<div class="row"><span>行った会場</span><b>${Object.keys(vc).length}か所</b></div>`}<div class="foot"><span>#oshicase</span><span>oshicase</span></div></div><button class="btn" data-share>画像を保存する</button>`}
 function render(){setColor();renderOshis();$('#view').innerHTML=tab==='home'?home():tab==='list'?list():tab==='cal'?cal():summary();document.querySelectorAll('nav [data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab))}
-function openSheet(h){$('#sheet').innerHTML='<div class="grab"></div>'+h;$('#scrim').classList.add('open')}
+function openSheet(h){$('#sheet').innerHTML='<div class="grab"></div>'+h;$('#sheet').dataset.id='';$('#scrim').classList.add('open')}
 function closeSheet(){$('#scrim').classList.remove('open')}
+const openId=()=>$('#scrim').classList.contains('open')?Number($('#sheet').dataset.id||0):0;
+const SETRE=/^(MC|EN\d*|アンコール|メドレー)(?![A-Za-z])[\s:：.．\-－・)）]*/i;
+const setTag=s=>{const m=s.match(SETRE);return m?[/^MC/i.test(m[1])?'MC':m[1]==='メドレー'?'メドレー':'EN',s.slice(m[0].length)]:['',s]};
+function setHtml(a){let n=0;return a.length?`<ul class="set">${a.map(s=>{const[tg,t]=setTag(s);return `<li class="${tg==='MC'?'mc':''}"><span class="no">${tg==='MC'?'':++n}</span>${tg?`<span class="tg">${tg}</span>`:''}<span>${esc(t)}</span></li>`}).join('')}</ul>`:'<p class="cap" style="margin:0">まだありません</p>'}
+const songs=a=>a.filter(s=>setTag(s)[0]!=='MC').length;
 function detail(id){
- const e=EV.find(x=>x.id===id),o=O(e.o),c=o.color;
- const steps=STEPS.map((s,i)=>`<button class="step ${!e.lose&&i<=e.st?'on':''}" data-step="${i}"><i></i>${s}</button>`).join('');
- const costs=Object.entries(e.cost);
- openSheet(`<div style="--c:${c}"><div class="shead"><div><span class="st ${e.lose?'lose':''}">${stName(e)}</span><h3>${esc(e.title)}</h3></div><button class="icon" data-close aria-label="閉じる"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
- <div class="steps">${steps}</div><button class="lose-t" data-lose>${e.lose?'落選を取り消す':'落選だった'}</button>
- <h2>現場</h2><div class="card"><dl class="kv"><dt>推し</dt><dd>${esc(o.name)}（${esc(o.group)}）</dd><dt>日時</dt><dd>${md(e.date)} ${e.time}</dd><dt>会場</dt><dd>${esc(e.venue)}</dd><dt>座席</dt><dd>${esc(e.seat||'—')}</dd><dt>同行者</dt><dd>${esc(e.with||'—')}</dd></dl></div>
- ${e.dl.length?`<h2>締切<small>通知します</small></h2><div class="card">${e.dl.map((d,i)=>`<div class="todo ${d.done?'done':''}" style="--c:${c}"><button class="chk ${d.done?'on':''}" data-dl="${e.id}:${i}" aria-label="済みにする"></button><div class="x"><b>${esc(d.l)}</b><span>${md(d.at)} ${d.at.slice(11,16)}</span></div><span class="when">${d.done?'済':whenTxt(d.at)}</span></div>`).join('')}</div>`:''}
- <h2>お金<small>合計 ${yen(sum(e))}</small></h2><div class="card"><dl class="kv">${costs.length?costs.map(([k,v])=>`<dt>${k}</dt><dd style="text-align:right;font-variant-numeric:tabular-nums">${yen(v)}</dd>`).join(''):'<dt>—</dt><dd>まだありません</dd>'}</dl></div>
- ${e.st===5?`<h2>思い出</h2><div class="photos">${Array.from({length:e.ph||0},()=>'<div class="ph"></div>').join('')}<div class="ph add">＋写真</div></div>
- ${e.set.length?`<h2>セトリ</h2><div class="card"><ol class="set">${e.set.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></div>`:''}
- <h2>よかった度</h2><div class="stars">${[1,2,3,4,5].map(n=>`<button class="${n<=e.stars?'on':''}" data-star="${n}" aria-label="${n}">★</button>`).join('')}</div>`:''}
- <h2>メモ・感想</h2><textarea id="memo" placeholder="今日のこと、忘れないうちに">${esc(e.memo)}</textarea></div>`);
+ const e=EV.find(x=>x.id===id),o=O(e.o),c=o.color,past=!e.out&&(e.st===5||days(e.date)<0);
+ const steps=STEPS.map((s,i)=>`<button class="step ${!e.out&&i<=e.st?'on':''}" data-step="${i}"><i></i>${s}</button>`).join('');
+ const outs=e.out?`<button class="lose-t" data-out="">「${stName(e)}」を取り消す</button>`:`<button class="lose-t" data-out="lose">落選だった</button><button class="lose-t" data-out="skip">見送る</button>`;
+ const kv=[['推し',`${esc(o.name)}（${esc(o.group)}）`],['日時',`${md(e.date)} ${e.time}`],['会場',esc(e.venue)],['座席',esc(e.seat||'—')],['同行者',esc(e.with||'—')],['名義',esc(e.nm||'—')],['申込先',esc(e.via||'—')],['通知元',esc(e.ntf||'—')]];
+ const paid=e.cost.reduce((a,r)=>a+r.v,0),lent=paid-sum(e);
+ const money=SET.money?`<h2>お金<small>自己負担 ${yen(sum(e))}</small></h2><div class="card">${e.cost.map((r,i)=>`<div class="cr"><div class="crh"><span>${esc(r.k)}${r.n>1?`<small>${r.n}人分</small>`:''}</span><b>${yen(r.v)}</b></div>${r.lend?`<div class="crs"><span>立替 ${yen(r.lend)}</span><button class="mchk ${r.back?'on':''}" role="checkbox" aria-checked="${!!r.back}" data-back="${e.id}:${i}">回収済み</button></div>`:''}</div>`).join('')||'<p class="cap" style="margin:0">まだありません</p>'}
+  ${lent?`<p class="cap">払った ${yen(paid)} − 立替 ${yen(lent)} ＝ 自己負担 ${yen(sum(e))}</p>`:''}
+  <details class="more"><summary>費用を追加</summary><div class="grid2"><label class="field"><span>費目</span><select id="ck">${CK.map(k=>`<option>${k}</option>`).join('')}</select></label><label class="field"><span>払った額</span><input id="cv" type="number" inputmode="numeric" min="0" placeholder="9800"></label><label class="field"><span>何人分</span><select id="cn">${[1,2,3,4,5,6].map(n=>`<option value="${n}">${n}人分</option>`).join('')}</select></label><label class="field"><span>うち立替</span><input id="cl" type="number" inputmode="numeric" min="0" placeholder="0"></label></div><button class="btn ghost" data-costadd>追加する</button></details></div>`:'';
+ const memories=past?`<h2>思い出<small>${nPh(e)}枚</small></h2><div class="photos">${phTiles(e)}<label class="ph add">＋写真<input id="phin" class="vh" type="file" accept="image/*" multiple></label></div>
+ <h2>セトリ<small>${e.set.length?songs(e.set)+'曲':''}</small></h2><div class="card"><div id="setv">${setHtml(e.set)}</div><details class="more"><summary>${e.set.length?'貼り付けて直す':'まとめて貼り付ける'}<small>1行に1曲</small></summary><textarea id="setin" placeholder="MC・EN・アンコール・メドレーで始まる行には印がつきます">${esc(e.set.join('\n'))}</textarea></details></div>
+ <h2>よかった度</h2><div class="stars">${[1,2,3,4,5].map(n=>`<button class="${n<=e.stars?'on':''}" data-star="${n}" aria-label="${n}">★</button>`).join('')}</div>`:'';
+ openSheet(`<div style="--c:${c};--oshi:${c}"><div class="shead"><div><span class="st ${e.out?'lose':''}">${stName(e)}</span><h3>${esc(e.title)}</h3></div>${CLOSE}</div>
+ <div class="steps">${steps}</div><div class="outs">${outs}</div>${e.out?'':warnHtml(clash(e.date,e.time,e.id))}
+ <h2>現場</h2><div class="card"><dl class="kv">${kv.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl></div>
+ <h2>締切<small>${e.out?'通知しません':'通知します'}</small></h2><div class="card">${e.dl.map((d,i)=>`<div class="todo ${d.done?'done':''} ${e.out?'off':''}" style="--c:${c}"><button class="chk ${d.done?'on':''}" data-dl="${e.id}:${i}" aria-label="済みにする"></button><div class="x"><b>${esc(d.l)}</b><span>${md(d.at)} ${d.at.slice(11,16)}</span></div><span class="when">${d.done?'済':whenTxt(d.at)}</span></div>`).join('')}
+  <details class="more"><summary>締切を追加</summary><label class="field"><span>種類</span><select id="dk">${DLK.map(k=>`<option>${k}</option>`).join('')}</select></label><label class="field"><span>日時</span><input id="da" type="datetime-local"></label><button class="btn ghost" data-dladd>追加する</button></details></div>
+ ${money}${memories}
+ <h2>メモ・感想</h2><textarea id="memo" placeholder="今日のこと、忘れないうちに">${esc(e.memo)}</textarea>
+ <div class="acts"><button class="btn ghost" data-edit>編集する</button><button class="btn ghost" data-dup>この現場を複製</button></div></div>`);
  $('#sheet').dataset.id=id;
- $('#memo').addEventListener('input',ev=>{e.memo=ev.target.value})}
-function addForm(){
- const dflt=cur==='all'?'hinata':cur;
- openSheet(`<div class="shead"><h3>現場を追加</h3><button class="icon" data-close aria-label="閉じる"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
- <form id="f"><label class="field"><span>推し</span><select id="fo">${OSHI.map(o=>`<option value="${o.id}" ${o.id===dflt?'selected':''}>${esc(o.name)}（${esc(o.group)}）</option>`).join('')}</select></label>
- <label class="field"><span>公演・イベント名</span><input id="ft" required placeholder="例：冬ツアー 福岡公演"></label>
- <div class="grid2"><label class="field"><span>日付</span><input id="fd" type="date" required value="2027-01-17"></label><label class="field"><span>開演</span><input id="fh" type="time" value="17:00"></label></div>
- <label class="field"><span>会場</span><input id="fv" placeholder="例：マリンメッセ福岡"></label>
- <label class="field"><span>申込締切（あれば通知します）</span><input id="fl" type="datetime-local" value="2026-12-01T23:59"></label>
- <label class="field"><span>チケット代</span><input id="fc" type="number" inputmode="numeric" placeholder="9800"></label>
- <button class="btn" type="submit">追加する</button></form>`);
- $('#f').addEventListener('submit',ev=>{ev.preventDefault();const t=$('#ft').value.trim();if(!t)return;
-  const e={id:nid++,o:$('#fo').value,title:t,date:$('#fd').value,time:$('#fh').value||'',venue:$('#fv').value.trim()||'未定',st:0,seat:'',with:'',dl:[],cost:{},set:[],memo:'',stars:0};
-  if($('#fl').value)e.dl.push({l:'申込締切',at:$('#fl').value,done:false});
-  const c=Number($('#fc').value);if(c)e.cost.チケット=c;
-  EV.push(e);closeSheet();tab='list';seg=days(e.date)>=0?'up':'past';render();toast('追加しました。締切の前日と当日に通知します')})}
+ $('#memo').addEventListener('input',ev=>{e.memo=ev.target.value});
+ $('#setin')?.addEventListener('input',ev=>{e.set=ev.target.value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);$('#setv').innerHTML=setHtml(e.set)});
+ $('#phin')?.addEventListener('change',ev=>{const fs=[...ev.target.files].filter(f=>f.type.startsWith('image/'));if(!fs.length)return;e.photos=(e.photos||[]).concat(fs.map(f=>URL.createObjectURL(f)));render();detail(id);toast(`写真を${fs.length}枚追加しました`)});
+ const autoLend=()=>{const v=Number($('#cv').value||0),n=Number($('#cn').value);$('#cl').value=n>1&&v?Math.round(v*(n-1)/n):''};
+ $('#cv')?.addEventListener('input',autoLend);$('#cn')?.addEventListener('change',autoLend)}
+function settings(){
+ openSheet(`<div class="shead"><h3>設定</h3>${CLOSE}</div>
+ <h2>お金の表示</h2><div class="card">
+ <button class="sw" role="switch" aria-checked="${SET.money}" data-sw="money"><span><b>金額を表示する</b><span>オフにすると、一覧・現場・まとめから金額と予算、立替が消えます。入力済みの記録は残ります</span></span><i></i></button>
+ <button class="sw" role="switch" aria-checked="${SET.money&&SET.shareMoney}" data-sw="shareMoney" ${SET.money?'':'disabled'}><span><b>まとめ画像に金額を入れる</b><span>SNSに載せる画像だけ金額を外せます</span></span><i></i></button></div>
+ <h2>日数の数え方</h2><div class="card">
+ <button class="sw" role="switch" aria-checked="${SET.day1}" data-sw="day1"><span><b>推し始めた日を1日目にする</b><span>オフのときは、推し始めた日の翌日が1日目です</span></span><i></i></button></div>
+ <h2>バックアップ</h2><div class="card"><p class="bk">最後のバックアップ：<b>${bk}</b></p><p class="cap" style="margin:2px 0 0">機種変更や削除に備えて、記録と写真をまとめて保存します</p><button class="btn ghost" data-backup>今すぐバックアップ</button></div>
+ <p class="cap">デモでは、表示の設定はこのブラウザに保存されます。</p>`)}
+function addForm(mode='new',src=null){
+ const p=src||{o:cur==='all'?'hinata':cur,title:'',time:'',venue:'',with:'',nm:'',via:'',ntf:''};
+ const date=mode==='edit'?src.date:'',tk=src?.cost.find(r=>r.k==='チケット');
+ const val=s=>s?`value="${esc(s)}"`:'';
+ openSheet(`<div class="shead"><h3>${{new:'現場を追加',dup:'現場を複製',edit:'現場を編集'}[mode]}</h3>${CLOSE}</div>
+ ${mode==='dup'?'<p class="cap">日付を入れてください。ステータス・写真・メモ・締切はコピーしません</p>':''}
+ <form id="f"><label class="field"><span>推し</span><select id="fo">${OSHI.map(o=>`<option value="${o.id}" ${o.id===p.o?'selected':''}>${esc(o.name)}（${esc(o.group)}）</option>`).join('')}</select></label>
+ <label class="field"><span>公演・イベント名</span><input id="ft" required placeholder="例：冬ツアー 福岡公演" ${val(p.title)}></label>
+ <label class="field"><span>日付</span><input id="fd" type="date" required ${val(date)}></label>
+ <div id="fw"></div>
+ <details class="more" ${mode==='new'?'':'open'}><summary>くわしく<small>開演・会場・名義など。あとからでも</small></summary>
+ <div class="grid2"><label class="field"><span>開演</span><input id="fh" type="time" ${val(p.time)}></label><label class="field"><span>同行者</span><input id="fwith" placeholder="例：みき" ${val(p.with)}></label></div>
+ <label class="field"><span>会場</span><input id="fv" placeholder="例：マリンメッセ福岡" ${val(p.venue==='未定'?'':p.venue)}></label>
+ <label class="field"><span>名義</span><input id="fn" placeholder="例：自分（FC会員）" ${val(p.nm)}></label>
+ <label class="field"><span>申込先</span><input id="fp" placeholder="例：FC先行、プレイガイド一般" ${val(p.via)}></label>
+ <label class="field"><span>結果の通知元</span><input id="fr" placeholder="例：FCサイトのマイページ、メール" ${val(p.ntf)}></label>
+ ${mode==='edit'?'':`<label class="field"><span>締切の種類</span><select id="fk">${DLK.map(k=>`<option>${k}</option>`).join('')}</select></label><label class="field"><span>締切の日時（通知します）</span><input id="fl" type="datetime-local"></label>
+ ${SET.money?`<label class="field"><span>チケット代</span><input id="fc" type="number" inputmode="numeric" min="0" placeholder="9800" ${tk?`value="${tk.v}"`:''}></label>`:''}`}
+ </details>
+ <button class="btn" type="submit">${mode==='edit'?'保存する':'追加する'}</button></form>`);
+ const upd=()=>{$('#fw').innerHTML=warnHtml(clash($('#fd').value,$('#fh').value,src&&mode==='edit'?src.id:0))};
+ $('#fd').addEventListener('input',upd);$('#fh').addEventListener('input',upd);upd();
+ $('#f').addEventListener('submit',ev=>{ev.preventDefault();const t=$('#ft').value.trim(),d=$('#fd').value;if(!t||!d)return;
+  const v=id=>($('#'+id)?.value||'').trim();
+  const f={o:$('#fo').value,title:t,date:d,time:v('fh'),venue:v('fv')||'未定',with:v('fwith'),nm:v('fn'),via:v('fp'),ntf:v('fr')};
+  if(mode==='edit'){Object.assign(src,f);render();detail(src.id);toast('保存しました');return}
+  const e={id:nid++,...f,st:0,seat:'',dl:[],cost:[],set:[],memo:'',stars:0};
+  if(v('fl'))e.dl.push({l:$('#fk').value,at:v('fl'),done:false});
+  const c=Math.round(Number(v('fc')||0));if(c>0)e.cost.push({k:'チケット',v:c});
+  EV.push(e);closeSheet();tab='list';seg=days(e.date)>=0?'up':'past';render();window.scrollTo(0,0);toast(e.dl.length?'追加しました。締切の前日と当日に通知します':'追加しました')})}
+const SWMSG={money:['金額を表示します','金額を表示しません'],shareMoney:['まとめ画像に金額を入れます','まとめ画像から金額を外します'],day1:['推し始めた日を1日目にします','推し始めた日の翌日を1日目にします']};
 document.addEventListener('click',ev=>{
  const t=ev.target.closest('button');if(!t)return;
  if(t.dataset.o){cur=t.dataset.o;render();return}
@@ -276,13 +385,21 @@ document.addEventListener('click',ev=>{
  if(t.dataset.mon){calM=new Date(calM.getFullYear(),calM.getMonth()+Number(t.dataset.mon),1);selD=null;render();return}
  if(t.dataset.day){selD=selD===t.dataset.day?null:t.dataset.day;render();return}
  if(t.dataset.ev){detail(Number(t.dataset.ev));return}
- if(t.dataset.dl){const[id,i]=t.dataset.dl.split(':').map(Number);const d=EV.find(x=>x.id===id).dl[i];d.done=!d.done;render();if($('#scrim').classList.contains('open'))detail(id);toast(d.done?'済みにしました':'未完了に戻しました');return}
- const sid=Number($('#sheet').dataset.id);
- if(t.dataset.step){const e=EV.find(x=>x.id===sid);e.st=Number(t.dataset.step);e.lose=false;render();detail(sid);toast(`「${STEPS[e.st]}」にしました`);return}
- if(t.hasAttribute('data-lose')){const e=EV.find(x=>x.id===sid);e.lose=!e.lose;render();detail(sid);return}
- if(t.dataset.star){const e=EV.find(x=>x.id===sid);e.stars=Number(t.dataset.star);detail(sid);return}
+ if(t.dataset.dl){const[id,i]=t.dataset.dl.split(':').map(Number);const d=EV.find(x=>x.id===id).dl[i];d.done=!d.done;render();if(openId()===id)detail(id);toast(d.done?'済みにしました':'未完了に戻しました');return}
+ if(t.dataset.back){const[id,i]=t.dataset.back.split(':').map(Number);const r=EV.find(x=>x.id===id).cost[i];r.back=!r.back;render();if(openId()===id)detail(id);toast(r.back?'回収済みにしました':'未回収に戻しました');return}
  if(t.hasAttribute('data-close')){closeSheet();return}
+ if(t.hasAttribute('data-set')){settings();return}
+ if(t.dataset.sw){const k=t.dataset.sw;SET[k]=!(t.getAttribute('aria-checked')==='true');saveSet();render();settings();toast(SWMSG[k][SET[k]?0:1]);return}
  if(t.hasAttribute('data-share')){toast('アプリでは画像として保存されます（デモ）');return}
+ if(t.hasAttribute('data-backup')){const n=new Date();bk=`今日 ${n.getHours()}:${String(n.getMinutes()).padStart(2,'0')}`;settings();toast('バックアップしました（デモ）');return}
+ const sid=openId(),e=EV.find(x=>x.id===sid);if(!e)return;
+ if(t.dataset.step){e.st=Number(t.dataset.step);e.out=undefined;render();detail(sid);toast(`「${STEPS[e.st]}」にしました`);return}
+ if('out' in t.dataset){e.out=t.dataset.out||undefined;render();detail(sid);toast(e.out?`「${stName(e)}」にしました`:'取り消しました');return}
+ if(t.dataset.star){e.stars=Number(t.dataset.star);detail(sid);return}
+ if(t.hasAttribute('data-dladd')){const at=$('#da').value;if(!at){toast('日時を入れてください');return}e.dl.push({l:$('#dk').value,at,done:false});e.dl.sort((a,b)=>a.at.localeCompare(b.at));render();detail(sid);toast('締切を追加しました');return}
+ if(t.hasAttribute('data-costadd')){const v=Math.round(Number($('#cv').value||0));if(!(v>0)){toast('金額を入れてください');return}const n=Number($('#cn').value),l=Math.min(v,Math.max(0,Math.round(Number($('#cl').value||0))));e.cost.push({k:$('#ck').value,v,n,lend:l,back:false});render();detail(sid);toast('費用を追加しました');return}
+ if(t.hasAttribute('data-edit')){addForm('edit',e);return}
+ if(t.hasAttribute('data-dup')){addForm('dup',e);return}
 });
 $('#scrim').addEventListener('click',ev=>{if(ev.target.id==='scrim')closeSheet()});
 document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeSheet()});
