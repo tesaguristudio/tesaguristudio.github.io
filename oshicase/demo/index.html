@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>oshicase デモ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+/* VOICE: 推しを大事にする手帳。やさしく、かわいく、でも道具として速い
+   IDEA: 紙のチケットの半券。現場は切り取り線のついたチケットとして並ぶ
+   PICTURE: ホームの「次の現場」の大きな半券と、カウントダウンの数字
+   COLOUR and TYPE: 地は白、推しカラーが全体の主役（推しを切り替えると全部変わる）。Zen Maru Gothic
+   LAYOUT: スマホのアプリそのもの。上に推しの切り替え、下に4つのタブ */
+:root{color-scheme:light dark;--bg:light-dark(#fff8f5,#17131a);--card:light-dark(#ffffff,#231d27);--ink:light-dark(#2a2129,#f5edf2);--sub:light-dark(#857781,#a99aa5);--line:light-dark(#f0e3e8,#352c39);--oshi:#ff4f86;--soft:color-mix(in srgb,var(--oshi) 14%,var(--card))}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font:16px/1.55 "Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;overflow-x:clip}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--oshi);outline-offset:2px}
+.app{max-width:440px;margin:0 auto;min-height:100%;position:relative;padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+@media(min-width:520px){body{padding:24px 0;background:light-dark(#f3e9ee,#0e0b10)}.app{min-height:860px;border-radius:36px;background:var(--bg);box-shadow:0 20px 60px #0002;overflow:hidden}}
+header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);padding:calc(10px + env(safe-area-inset-top)) 16px 10px}
+.brand{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.brand b{font-size:22px;font-weight:900;letter-spacing:.01em}.brand b i{font-style:normal;color:var(--oshi)}
+.demo{font-size:13px;color:var(--sub)}
+.oshis{display:flex;gap:8px;overflow-x:auto;padding:2px;scrollbar-width:none}
+.chip{flex:none;display:flex;align-items:center;gap:6px;min-height:40px;padding:4px 14px 4px 4px;border-radius:999px;border:2px solid var(--line);background:var(--card);font-weight:700;font-size:15px}
+.chip .dot{width:30px;height:30px;border-radius:50%;background:var(--c);display:grid;place-items:center;color:#fff;font-size:14px}
+.chip.on{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--card))}
+main{padding:6px 16px 24px}
+h2{font-size:17px;margin:22px 0 10px;display:flex;justify-content:space-between;align-items:baseline}
+h2 small{font-size:13px;color:var(--sub);font-weight:500}
+.card{background:var(--card);border-radius:20px;padding:14px 16px;box-shadow:0 1px 0 var(--line),0 6px 18px light-dark(#e9d6de66,#0004)}
+/* チケット */
+.ticket{display:grid;grid-template-columns:1fr 96px;background:var(--oshi);color:#fff;border-radius:22px;position:relative;overflow:hidden;box-shadow:0 12px 30px color-mix(in srgb,var(--oshi) 40%,transparent);border:0;text-align:left;width:100%;padding:0}
+.ticket .l{padding:16px 16px 18px}
+.ticket .r{border-left:2px dashed #ffffff88;display:grid;place-items:center;text-align:center;padding:10px 4px;background:#ffffff1a}
+.ticket::before,.ticket::after{content:"";position:absolute;right:87px;width:20px;height:20px;border-radius:50%;background:var(--bg)}
+.ticket::before{top:-10px}.ticket::after{bottom:-10px}
+.ticket .k{font-size:13px;opacity:.9}.ticket .t{font-size:20px;font-weight:900;line-height:1.3;margin:4px 0 8px;text-wrap:balance}
+.ticket .m{font-size:14px;opacity:.95}
+.ticket .n{font-size:44px;font-weight:900;line-height:1}.ticket .u{font-size:13px}
+.ticket .glow{position:absolute;right:-30px;top:-40px;width:160px;height:160px;border-radius:50%;background:radial-gradient(#ffffff55,transparent 70%);pointer-events:none}
+.badge{display:inline-block;font-size:12px;font-weight:700;padding:1px 9px;border-radius:999px;background:#ffffff33}
+/* やること */
+.todo{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.todo:last-child{border:0}
+.chk{flex:none;width:28px;height:28px;border-radius:50%;border:2px solid var(--c,var(--oshi));background:none;display:grid;place-items:center;padding:0}
+.chk.on{background:var(--c,var(--oshi))}.chk.on::after{content:"";width:9px;height:5px;border:3px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.todo .x{flex:1}.todo .x b{display:block;font-size:15px}.todo .x span{font-size:13px;color:var(--sub)}
+.todo .when{font-size:13px;font-weight:700;white-space:nowrap;color:var(--c)}
+.todo.done .x b{text-decoration:line-through;color:var(--sub)}
+.urgent{color:#fff!important;background:var(--c);padding:2px 8px;border-radius:999px}
+/* 記念日・ウィジェット */
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.wid{aspect-ratio:1;border-radius:24px;padding:14px;background:var(--c);color:#fff;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.wid .s{font-size:13px;opacity:.92}.wid .big{font-size:clamp(30px,10vw,40px);font-weight:900;line-height:1}.wid .big small{font-size:14px;margin-left:2px}
+.wid::after{content:"";position:absolute;right:-24px;bottom:-24px;width:90px;height:90px;border-radius:50%;background:#ffffff22}
+.wid.lt{background:var(--card);color:var(--ink);border:2px solid var(--c)}.wid.lt .big{color:var(--c)}.wid.lt::after{background:color-mix(in srgb,var(--c) 14%,transparent)}
+.wmid{grid-column:1/-1;aspect-ratio:auto;flex-direction:row;gap:14px;align-items:center;min-height:150px}
+.wmid .col{flex:1;display:flex;flex-direction:column;gap:6px}
+.wmid .line{font-size:13px;background:#ffffff26;border-radius:10px;padding:6px 10px}
+.cap{font-size:13px;color:var(--sub);margin:8px 2px 0}
+/* 現場一覧 */
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--line);border-radius:999px;padding:4px;margin:8px 0 4px}
+.seg button{border:0;background:none;min-height:40px;border-radius:999px;font-weight:700;color:var(--sub)}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 2px 6px #0001}
+.month{font-size:14px;color:var(--sub);font-weight:700;margin:18px 4px 8px}
+.ev{display:grid;grid-template-columns:58px 1fr auto;gap:12px;align-items:center;width:100%;text-align:left;border:0;margin-bottom:10px;position:relative;overflow:hidden}
+.ev::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--c)}
+.ev .d{text-align:center;line-height:1.1}.ev .d b{display:block;font-size:24px;font-weight:900;color:var(--c)}.ev .d span{font-size:12px;color:var(--sub)}
+.ev .t{font-weight:700;font-size:15px;line-height:1.35}.ev .v{font-size:13px;color:var(--sub)}
+.st{font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap;background:color-mix(in srgb,var(--c) 16%,var(--card));color:var(--c)}
+.st.lose{background:var(--line);color:var(--sub)}
+.empty{text-align:center;color:var(--sub);padding:40px 10px}
+/* カレンダー */
+.calh{display:flex;align-items:center;justify-content:space-between;margin:8px 0}
+.calh b{font-size:20px;font-weight:900}
+.icon{width:44px;height:44px;border-radius:50%;border:0;background:var(--card);display:grid;place-items:center;box-shadow:0 1px 0 var(--line)}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center}
+.cal .w{font-size:12px;color:var(--sub);padding:4px 0}
+.cal .w:first-child{color:#e0526a}.cal .w:last-child{color:#4a7bdc}
+.day{aspect-ratio:1/1.1;border:0;border-radius:14px;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:6px;font-size:15px;gap:3px}
+.day.out{visibility:hidden}.day.today{outline:2px solid var(--oshi)}.day.sel{background:var(--oshi);color:#fff}
+.dots{display:flex;gap:3px;flex-wrap:wrap;justify-content:center}.dots i{width:7px;height:7px;border-radius:50%;background:var(--c)}.dots i.dl{background:none;border:2px solid var(--c);width:7px;height:7px}
+.legend{font-size:13px;color:var(--sub);display:flex;gap:16px;margin:10px 4px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--sub);margin-right:4px;vertical-align:1px}.legend i.dl{background:none;border:2px solid var(--sub)}
+/* まとめ */
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.stat{text-align:center;padding:14px 6px}.stat b{display:block;font-size:clamp(24px,7vw,30px);font-weight:900;color:var(--oshi);line-height:1.1;white-space:nowrap}.stat span{font-size:12px;color:var(--sub)}
+.bar{margin:10px 0}.bar .lab{display:flex;justify-content:space-between;font-size:14px}.bar .lab span:last-child{font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.bar .tr{height:12px;border-radius:99px;background:var(--line);margin-top:4px;overflow:hidden}.bar .fl{height:100%;border-radius:99px;background:var(--c,var(--oshi))}
+.budget .tr{height:16px}
+.share{background:var(--oshi);color:#fff;border-radius:26px;padding:22px 20px;position:relative;overflow:hidden;min-height:360px;display:flex;flex-direction:column}
+.share .yr{font-size:14px;opacity:.9}.share h3{font-size:28px;font-weight:900;margin:2px 0 14px;line-height:1.15}
+.share .row{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px dashed #ffffff66;padding:9px 0;font-size:15px}.share .row b{font-size:24px;font-weight:900;white-space:nowrap}
+.share .foot{margin-top:auto;padding-top:18px;font-size:12px;opacity:.85;display:flex;justify-content:space-between}
+.share .ring{position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;border:26px solid #ffffff22}
+.btn{display:block;width:100%;min-height:50px;border:0;border-radius:999px;background:var(--oshi);color:#fff;font-weight:900;font-size:16px;margin-top:12px}
+.btn.ghost{background:var(--soft);color:var(--oshi)}
+/* 下のタブ */
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:440px;z-index:6;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:end;background:color-mix(in srgb,var(--card) 94%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:6px 6px calc(8px + env(safe-area-inset-bottom))}
+@media(min-width:520px){nav{position:absolute;bottom:0}}
+nav button{border:0;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:var(--sub);min-height:52px;justify-content:center}
+nav button svg{width:26px;height:26px}
+nav button.on{color:var(--oshi)}
+nav .add{width:58px;height:58px;border-radius:50%;background:var(--oshi);color:#fff;margin:-22px auto 0;box-shadow:0 8px 18px color-mix(in srgb,var(--oshi) 45%,transparent)}
+nav .add svg{width:30px;height:30px}
+/* シート */
+.scrim{position:fixed;inset:0;background:#0006;z-index:10;display:none;align-items:flex-end;justify-content:center}
+.scrim.open{display:flex}
+.sheet{background:var(--bg);width:100%;max-width:440px;max-height:92vh;overflow-y:auto;border-radius:28px 28px 0 0;padding:10px 16px calc(24px + env(safe-area-inset-bottom));animation:up .28s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:.4}}
+@media(prefers-reduced-motion:reduce){.sheet{animation:none}}
+.grab{width:44px;height:5px;border-radius:9px;background:var(--line);margin:0 auto 10px}
+.shead{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.shead h3{margin:0;font-size:20px;line-height:1.3}
+.steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px;margin:14px 0 6px}
+.step{border:0;background:none;padding:0;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--sub);font-weight:700;min-height:48px}
+.step i{width:100%;height:8px;border-radius:9px;background:var(--line)}
+.step.on{color:var(--c)}.step.on i{background:var(--c)}
+.kv{display:grid;grid-template-columns:5.5em 1fr;gap:6px 10px;font-size:15px}.kv dt{color:var(--sub);font-size:14px}.kv dd{margin:0}
+.photos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.ph{aspect-ratio:1;border-radius:14px;background:linear-gradient(160deg,color-mix(in srgb,var(--c) 70%,#1a1030),#1a1030);position:relative;overflow:hidden}
+.ph::before{content:"";position:absolute;left:10%;right:10%;bottom:-30%;height:70%;border-radius:50%;background:radial-gradient(color-mix(in srgb,var(--c) 80%,#fff),transparent 70%)}
+.ph::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(100deg,transparent 0 14px,#ffffff14 14px 16px)}
+.ph.add{background:var(--card);border:2px dashed var(--line);display:grid;place-items:center;color:var(--sub);font-size:13px}.ph.add::before,.ph.add::after{display:none}
+ol.set{margin:0;padding-left:1.6em;font-size:15px}ol.set li{padding:2px 0}
+textarea{width:100%;min-height:90px;border-radius:14px;border:2px solid var(--line);background:var(--card);padding:10px 12px;font-size:16px;resize:vertical}
+.field{display:block;margin:12px 0}.field span{display:block;font-size:14px;color:var(--sub);margin-bottom:4px}
+.field input,.field select{width:100%;min-height:48px;border-radius:14px;border:2px solid var(--line);background:var(--card);padding:8px 12px;font-size:16px}
+.stars{display:flex;gap:2px}.stars button{border:0;background:none;font-size:26px;padding:0 2px;color:var(--line);min-width:36px;min-height:40px}.stars button.on{color:var(--c)}
+.lose-t{border:0;background:none;color:var(--sub);text-decoration:underline;font-size:14px;min-height:40px;padding:0}
+.toast{position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;z-index:20;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="brand"><b>oshi<i>case</i></b><span class="demo">デモ・架空のデータ／今日は2026/11/27</span></div>
+    <div class="oshis" id="oshis"></div>
+  </header>
+  <main id="view"></main>
+  <nav id="nav">
+    <button data-tab="home" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9h-5v-6H9v6H4z"/></svg>ホーム</button>
+    <button data-tab="list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 7h18v3a2 2 0 000 4v3H3v-3a2 2 0 000-4z"/><path d="M15 7v10" stroke-dasharray="2 2"/></svg>現場</button>
+    <button data-tab="new" aria-label="現場を追加"><span class="add" style="display:grid;place-items:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+    <button data-tab="cal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>カレンダー</button>
+    <button data-tab="sum"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 20V11M12 20V5M19 20v-6"/></svg>まとめ</button>
+  </nav>
+</div>
+<div class="scrim" id="scrim"><div class="sheet" id="sheet"></div></div>
+<div class="toast" id="toast"></div>
+<script>
+{
+const TODAY=new Date(2026,10,27);
+const STEPS=['検討中','申込済','当選','入金済','発券済','参戦済'];
+const OSHI=[
+ {id:'hinata',name:'ひなた',group:'STELLA NOTE',color:'#ff4f86',since:'2022-03-14',bday:'01-09'},
+ {id:'rei',name:'レイ',group:'Blue Hour',color:'#3b7bff',since:'2024-07-20',bday:'04-02'},
+ {id:'sora',name:'そら',group:'VTuber',color:'#f58a07',since:'2025-02-01',bday:'12-18'}];
+let EV=[
+ {id:1,o:'hinata',title:'STELLA NOTE 冬ツアー 横浜公演',date:'2026-12-12',time:'17:00',venue:'Kアリーナ横浜',st:3,seat:'未定（発券待ち）',with:'みき',dl:[{l:'電子チケット 分配',at:'2026-12-05T10:00',done:false},{l:'入金',at:'2026-11-20T23:59',done:true}],cost:{チケット:9800,交通:2400},set:[],memo:'',stars:0},
+ {id:2,o:'rei',title:'Blue Hour ファンミーティング',date:'2026-12-20',time:'15:00',venue:'大阪城ホール',st:1,seat:'',with:'',dl:[{l:'当落発表',at:'2026-11-30T18:00',done:false},{l:'入金締切（当選したら）',at:'2026-12-03T23:59',done:false}],cost:{チケット:8800},set:[],memo:'遠征。新幹線はまだ取らない',stars:0},
+ {id:3,o:'sora',title:'そら 誕生日3D配信',date:'2026-12-18',time:'21:00',venue:'YouTube（メン限）',st:0,seat:'',with:'',dl:[{l:'誕生日グッズ 受注締切',at:'2026-12-10T23:59',done:false}],cost:{グッズ:0},set:[],memo:'',stars:0},
+ {id:4,o:'hinata',title:'STELLA NOTE 春ツアー 東京ドーム',date:'2027-03-21',time:'17:00',venue:'東京ドーム',st:0,seat:'',with:'',dl:[{l:'FC2次先行 申込締切',at:'2026-11-28T23:59',done:false}],cost:{},set:[],memo:'',stars:0},
+ {id:5,o:'hinata',title:'STELLA NOTE 夏フェス出演',date:'2026-08-09',time:'13:30',venue:'幕張メッセ',st:5,seat:'Aブロック 前方',with:'みき',dl:[],cost:{チケット:12000,交通:3200,グッズ:8600},set:['Starlight Letter','夏のプリズム','ハミングバード','アンコール：Note to you'],memo:'1曲目のイントロで泣いた。うちわ見てもらえた気がする',stars:5,ph:4},
+ {id:6,o:'rei',title:'Blue Hour リリースイベント',date:'2026-10-04',time:'14:00',venue:'ららぽーと豊洲',st:5,seat:'自由',with:'',dl:[],cost:{交通:1100,グッズ:5500},set:['夜明けのブルー','Moonwalk'],memo:'特典会で名前を呼んでくれた',stars:4,ph:2},
+ {id:7,o:'hinata',title:'STELLA NOTE 秋ツアー 名古屋',date:'2026-10-25',time:'17:00',venue:'日本ガイシホール',st:1,lose:true,seat:'',with:'',dl:[],cost:{},set:[],memo:'全滅……',stars:0},
+ {id:8,o:'hinata',title:'STELLA NOTE ワンマン',date:'2026-05-17',time:'18:00',venue:'Zepp Haneda',st:5,seat:'1階 整理番号 A312',with:'',dl:[],cost:{チケット:7700,交通:900,グッズ:12400},set:['Starlight Letter','ハミングバード','雨上がりの約束'],memo:'',stars:5,ph:3},
+ {id:9,o:'rei',title:'Blue Hour 夏ツアー 大阪',date:'2026-07-12',time:'17:00',venue:'グランキューブ大阪',st:5,seat:'2階 3列',with:'さき',dl:[],cost:{チケット:9500,交通:28600,宿泊:9800,グッズ:6000},set:['夜明けのブルー','Moonwalk','Blue Hour'],memo:'初遠征。たこ焼きもおいしかった',stars:5,ph:3}];
+let cur='all',tab='home',seg='up',calM=new Date(2026,11,1),selD=null,nid=10;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const O=id=>OSHI.find(o=>o.id===id);
+const dt=s=>{const[y,m,d]=s.slice(0,10).split('-').map(Number);return new Date(y,m-1,d)};
+const days=s=>Math.round((dt(s)-TODAY)/864e5);
+const yen=n=>'¥'+n.toLocaleString('ja-JP');
+const wk='日月火水木金土';
+const md=s=>{const d=dt(s);return `${d.getMonth()+1}/${d.getDate()}(${wk[d.getDay()]})`};
+const sum=e=>Object.values(e.cost).reduce((a,b)=>a+b,0);
+const vis=()=>EV.filter(e=>cur==='all'||e.o===cur);
+const stName=e=>e.lose?'落選':STEPS[e.st];
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),1800)}
+function setColor(){document.documentElement.style.setProperty('--oshi',cur==='all'?'#ff4f86':O(cur).color)}
+function renderOshis(){
+ $('#oshis').innerHTML=[{id:'all',name:'すべて',color:'#2a2129'}].concat(OSHI).map(o=>`<button class="chip ${cur===o.id?'on':''}" data-o="${o.id}" style="--c:${o.id==='all'?'var(--oshi)':o.color}"><span class="dot">${o.id==='all'?'★':esc(o.name[0])}</span>${esc(o.name)}</button>`).join('')}
+function todos(){
+ const r=[];vis().forEach(e=>e.dl.forEach((d,i)=>{if(!e.lose)r.push({e,d,i})}));
+ return r.filter(x=>!x.d.done||days(x.d.at)>=-3).sort((a,b)=>a.d.done-b.d.done||a.d.at.localeCompare(b.d.at))}
+function whenTxt(at){const n=days(at),t=at.slice(11,16);return n===0?`今日 ${t}`:n===1?`あした ${t}`:n<0?'済':`あと${n}日`}
+function home(){
+ const up=vis().filter(e=>days(e.date)>=0&&!e.lose&&e.st>=2).sort((a,b)=>a.date.localeCompare(b.date));
+ const nx=up[0]||vis().filter(e=>days(e.date)>=0&&!e.lose).sort((a,b)=>a.date.localeCompare(b.date))[0];
+ const tk=nx?`<button class="ticket" data-ev="${nx.id}" style="--oshi:${O(nx.o).color}"><div class="glow"></div><div class="l"><div class="k">次の現場 ・ <span class="badge">${stName(nx)}</span></div><div class="t">${esc(nx.title)}</div><div class="m">${md(nx.date)} ${nx.time} 開演<br>${esc(nx.venue)}</div></div><div class="r"><div><div class="u">あと</div><div class="n">${days(nx.date)}</div><div class="u">日</div></div></div></button>`:`<div class="card empty">これからの現場はまだありません</div>`;
+ const td=todos().slice(0,5).map(({e,d,i})=>{const c=O(e.o).color,n=days(d.at);return `<div class="todo ${d.done?'done':''}" style="--c:${c}"><button class="chk ${d.done?'on':''}" data-dl="${e.id}:${i}" aria-label="済みにする"></button><div class="x"><b>${esc(d.l)}</b><span>${esc(e.title)}</span></div><span class="when ${!d.done&&n<=1?'urgent':''}">${d.done?'済':whenTxt(d.at)}</span></div>`}).join('')||'<div class="empty">やることはありません</div>';
+ const os=cur==='all'?OSHI:[O(cur)];
+ const ann=os.map(o=>{const by=dt(`2026-${o.bday}`);if(by<TODAY)by.setFullYear(2027);const bd=Math.round((by-TODAY)/864e5);const sd=-days(o.since);
+  return `<div class="wid" style="--c:${o.color}"><div class="s">${esc(o.name)}を推して</div><div class="big">${sd.toLocaleString()}<small>日</small></div><div class="s">${o.since.replaceAll('-','.')}〜</div></div><div class="wid lt" style="--c:${o.color}"><div class="s">${esc(o.name)}の誕生日まで</div><div class="big">${bd}<small>日</small></div><div class="s">${Number(o.bday.slice(0,2))}月${Number(o.bday.slice(3))}日</div></div>`}).join('');
+ const mid=nx?`<div class="wid wmid" style="--c:${O(nx.o).color}"><div style="text-align:center;flex:none;width:34%"><div class="s">次の現場まで</div><div class="big">${days(nx.date)}<small>日</small></div><div class="s">${md(nx.date)}</div></div><div class="col">${todos().filter(x=>!x.d.done).slice(0,3).map(x=>`<div class="line">${esc(x.d.l)} ・ ${whenTxt(x.d.at)}</div>`).join('')}</div></div>`:'';
+ return `${tk}<h2>やること<small>締切が近い順</small></h2><div class="card">${td}</div><h2>記念日<small>ウィジェットにもなります</small></h2><div class="grid2">${ann}</div><h2>ホーム画面のウィジェット<small>中サイズ</small></h2>${mid}<p class="cap">ホーム画面に置くと、毎日カウントダウンが見られます。</p>`}
+function evRow(e){const d=dt(e.date),c=O(e.o).color;return `<button class="card ev" data-ev="${e.id}" style="--c:${c}"><div class="d"><b>${d.getDate()}</b><span>${wk[d.getDay()]}曜</span></div><div><div class="t">${esc(e.title)}</div><div class="v">${esc(e.venue)}${sum(e)?' ・ '+yen(sum(e)):''}</div></div><span class="st ${e.lose?'lose':''}">${stName(e)}</span></button>`}
+function list(){
+ let a=vis().filter(e=>seg==='up'?days(e.date)>=0:days(e.date)<0).sort((x,y)=>seg==='up'?x.date.localeCompare(y.date):y.date.localeCompare(x.date));
+ let h='',m='';a.forEach(e=>{const k=e.date.slice(0,7);if(k!==m){m=k;h+=`<div class="month">${k.slice(0,4)}年${Number(k.slice(5))}月</div>`}h+=evRow(e)});
+ return `<div class="seg"><button data-seg="up" class="${seg==='up'?'on':''}">これから</button><button data-seg="past" class="${seg==='past'?'on':''}">行った・終わった</button></div>${h||'<div class="empty">まだありません。下の＋から追加できます</div>'}`}
+function cal(){
+ const y=calM.getFullYear(),m=calM.getMonth(),f=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate();
+ const key=d=>`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+ let c=wk.split('').map(w=>`<div class="w">${w}</div>`).join('');
+ for(let i=0;i<f;i++)c+='<div class="day out"></div>';
+ for(let d=1;d<=n;d++){const k=key(d);const evs=vis().filter(e=>e.date===k&&!e.lose);const dls=[];vis().forEach(e=>e.dl.forEach(x=>{if(x.at.slice(0,10)===k&&!e.lose)dls.push(e)}));
+  const isT=y===2026&&m===10&&d===27;
+  c+=`<button class="day ${isT?'today':''} ${selD===k?'sel':''}" data-day="${k}">${d}<span class="dots">${evs.map(e=>`<i style="--c:${O(e.o).color}"></i>`).join('')}${dls.map(e=>`<i class="dl" style="--c:${O(e.o).color}"></i>`).join('')}</span></button>`}
+ let det='';if(selD){const evs=vis().filter(e=>e.date===selD);const dls=[];vis().forEach(e=>e.dl.forEach(x=>{if(x.at.slice(0,10)===selD)dls.push({e,x})}));
+  det=`<h2>${md(selD)}</h2>`+(evs.map(evRow).join('')+dls.map(({e,x})=>`<button class="card ev" data-ev="${e.id}" style="--c:${O(e.o).color}"><div class="d"><b style="font-size:15px">${x.at.slice(11,16)}</b><span>締切</span></div><div><div class="t">${esc(x.l)}</div><div class="v">${esc(e.title)}</div></div><span class="st">${x.done?'済':'締切'}</span></button>`).join('')||'<div class="card empty">この日の予定はありません</div>')}
+ return `<div class="calh"><button class="icon" data-mon="-1" aria-label="前の月"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 5l-7 7 7 7"/></svg></button><b>${y}年${m+1}月</b><button class="icon" data-mon="1" aria-label="次の月"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7"/></svg></button></div><div class="cal">${c}</div><div class="legend"><span><i></i>現場</span><span><i class="dl"></i>締切</span></div>${det}`}
+function summary(){
+ const y=vis().filter(e=>e.date.startsWith('2026'));const went=y.filter(e=>e.st===5);
+ const applied=y.filter(e=>e.lose||e.st>=2).length,won=y.filter(e=>!e.lose&&e.st>=2).length;
+ const rate=applied?Math.round(won/applied*100):0;const tot=y.reduce((a,e)=>a+sum(e),0);
+ const cats={};y.forEach(e=>Object.entries(e.cost).forEach(([k,v])=>cats[k]=(cats[k]||0)+v));
+ const mx=Math.max(1,...Object.values(cats));
+ const cb=Object.entries(cats).filter(x=>x[1]).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="bar"><div class="lab"><span>${k}</span><span>${yen(v)}</span></div><div class="tr"><div class="fl" style="width:${v/mx*100}%"></div></div></div>`).join('');
+ const ob=cur==='all'?`<h2>推しごと</h2><div class="card">${OSHI.map(o=>{const v=y.filter(e=>e.o===o.id).reduce((a,e)=>a+sum(e),0);return `<div class="bar" style="--c:${o.color}"><div class="lab"><span>${esc(o.name)}</span><span>${yen(v)}</span></div><div class="tr"><div class="fl" style="width:${tot?v/tot*100:0}%"></div></div></div>`}).join('')}</div>`:'';
+ const vc={};went.forEach(e=>vc[e.venue]=(vc[e.venue]||0)+1);const topV=Object.entries(vc).sort((a,b)=>b[1]-a[1])[0];
+ const budget=200000;const usedM=y.filter(e=>e.date.startsWith('2026-12')).reduce((a,e)=>a+sum(e),0);
+ const name=cur==='all'?'わたし':esc(O(cur).name)+'担';
+ return `<h2>2026年<small>1月〜今日まで</small></h2><div class="stats"><div class="card stat"><b>${went.length}</b><span>行った現場</span></div><div class="card stat"><b>${rate}%</b><span>当選率</span></div><div class="card stat"><b>${(tot/10000).toFixed(1)}万</b><span>使ったお金</span></div></div>
+ <h2>12月の予算<small>${yen(budget)}</small></h2><div class="card budget"><div class="bar"><div class="lab"><span>予定に入っている分</span><span>${yen(usedM)}</span></div><div class="tr"><div class="fl" style="width:${Math.min(100,usedM/budget*100)}%"></div></div></div><p class="cap" style="margin:6px 0 0">あと ${yen(Math.max(0,budget-usedM))} 使えます</p></div>
+ <h2>費目ごと</h2><div class="card">${cb||'<div class="empty">まだ記録がありません</div>'}</div>${ob}
+ <h2>1年のまとめ画像<small>SNSにシェア</small></h2><div class="share"><div class="ring"></div><div class="yr">2026年の推し活</div><h3>${name}の1年</h3><div class="row"><span>行った現場</span><b>${went.length}回</b></div><div class="row"><span>当選率</span><b>${rate}%</b></div><div class="row"><span>いちばん行った会場</span><b style="font-size:16px">${topV?esc(topV[0]):'—'}</b></div><div class="row"><span>推しに使ったお金</span><b>${yen(tot)}</b></div><div class="foot"><span>#oshicase</span><span>oshicase</span></div></div><button class="btn" data-share>画像を保存する</button>`}
+function render(){setColor();renderOshis();$('#view').innerHTML=tab==='home'?home():tab==='list'?list():tab==='cal'?cal():summary();document.querySelectorAll('nav [data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===tab))}
+function openSheet(h){$('#sheet').innerHTML='<div class="grab"></div>'+h;$('#scrim').classList.add('open')}
+function closeSheet(){$('#scrim').classList.remove('open')}
+function detail(id){
+ const e=EV.find(x=>x.id===id),o=O(e.o),c=o.color;
+ const steps=STEPS.map((s,i)=>`<button class="step ${!e.lose&&i<=e.st?'on':''}" data-step="${i}"><i></i>${s}</button>`).join('');
+ const costs=Object.entries(e.cost);
+ openSheet(`<div style="--c:${c}"><div class="shead"><div><span class="st ${e.lose?'lose':''}">${stName(e)}</span><h3>${esc(e.title)}</h3></div><button class="icon" data-close aria-label="閉じる"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+ <div class="steps">${steps}</div><button class="lose-t" data-lose>${e.lose?'落選を取り消す':'落選だった'}</button>
+ <h2>現場</h2><div class="card"><dl class="kv"><dt>推し</dt><dd>${esc(o.name)}（${esc(o.group)}）</dd><dt>日時</dt><dd>${md(e.date)} ${e.time}</dd><dt>会場</dt><dd>${esc(e.venue)}</dd><dt>座席</dt><dd>${esc(e.seat||'—')}</dd><dt>同行者</dt><dd>${esc(e.with||'—')}</dd></dl></div>
+ ${e.dl.length?`<h2>締切<small>通知します</small></h2><div class="card">${e.dl.map((d,i)=>`<div class="todo ${d.done?'done':''}" style="--c:${c}"><button class="chk ${d.done?'on':''}" data-dl="${e.id}:${i}" aria-label="済みにする"></button><div class="x"><b>${esc(d.l)}</b><span>${md(d.at)} ${d.at.slice(11,16)}</span></div><span class="when">${d.done?'済':whenTxt(d.at)}</span></div>`).join('')}</div>`:''}
+ <h2>お金<small>合計 ${yen(sum(e))}</small></h2><div class="card"><dl class="kv">${costs.length?costs.map(([k,v])=>`<dt>${k}</dt><dd style="text-align:right;font-variant-numeric:tabular-nums">${yen(v)}</dd>`).join(''):'<dt>—</dt><dd>まだありません</dd>'}</dl></div>
+ ${e.st===5?`<h2>思い出</h2><div class="photos">${Array.from({length:e.ph||0},()=>'<div class="ph"></div>').join('')}<div class="ph add">＋写真</div></div>
+ ${e.set.length?`<h2>セトリ</h2><div class="card"><ol class="set">${e.set.map(s=>`<li>${esc(s)}</li>`).join('')}</ol></div>`:''}
+ <h2>よかった度</h2><div class="stars">${[1,2,3,4,5].map(n=>`<button class="${n<=e.stars?'on':''}" data-star="${n}" aria-label="${n}">★</button>`).join('')}</div>`:''}
+ <h2>メモ・感想</h2><textarea id="memo" placeholder="今日のこと、忘れないうちに">${esc(e.memo)}</textarea></div>`);
+ $('#sheet').dataset.id=id;
+ $('#memo').addEventListener('input',ev=>{e.memo=ev.target.value})}
+function addForm(){
+ const dflt=cur==='all'?'hinata':cur;
+ openSheet(`<div class="shead"><h3>現場を追加</h3><button class="icon" data-close aria-label="閉じる"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+ <form id="f"><label class="field"><span>推し</span><select id="fo">${OSHI.map(o=>`<option value="${o.id}" ${o.id===dflt?'selected':''}>${esc(o.name)}（${esc(o.group)}）</option>`).join('')}</select></label>
+ <label class="field"><span>公演・イベント名</span><input id="ft" required placeholder="例：冬ツアー 福岡公演"></label>
+ <div class="grid2"><label class="field"><span>日付</span><input id="fd" type="date" required value="2027-01-17"></label><label class="field"><span>開演</span><input id="fh" type="time" value="17:00"></label></div>
+ <label class="field"><span>会場</span><input id="fv" placeholder="例：マリンメッセ福岡"></label>
+ <label class="field"><span>申込締切（あれば通知します）</span><input id="fl" type="datetime-local" value="2026-12-01T23:59"></label>
+ <label class="field"><span>チケット代</span><input id="fc" type="number" inputmode="numeric" placeholder="9800"></label>
+ <button class="btn" type="submit">追加する</button></form>`);
+ $('#f').addEventListener('submit',ev=>{ev.preventDefault();const t=$('#ft').value.trim();if(!t)return;
+  const e={id:nid++,o:$('#fo').value,title:t,date:$('#fd').value,time:$('#fh').value||'',venue:$('#fv').value.trim()||'未定',st:0,seat:'',with:'',dl:[],cost:{},set:[],memo:'',stars:0};
+  if($('#fl').value)e.dl.push({l:'申込締切',at:$('#fl').value,done:false});
+  const c=Number($('#fc').value);if(c)e.cost.チケット=c;
+  EV.push(e);closeSheet();tab='list';seg=days(e.date)>=0?'up':'past';render();toast('追加しました。締切の前日と当日に通知します')})}
+document.addEventListener('click',ev=>{
+ const t=ev.target.closest('button');if(!t)return;
+ if(t.dataset.o){cur=t.dataset.o;render();return}
+ if(t.dataset.tab){if(t.dataset.tab==='new'){addForm();return}tab=t.dataset.tab;render();window.scrollTo(0,0);return}
+ if(t.dataset.seg){seg=t.dataset.seg;render();return}
+ if(t.dataset.mon){calM=new Date(calM.getFullYear(),calM.getMonth()+Number(t.dataset.mon),1);selD=null;render();return}
+ if(t.dataset.day){selD=selD===t.dataset.day?null:t.dataset.day;render();return}
+ if(t.dataset.ev){detail(Number(t.dataset.ev));return}
+ if(t.dataset.dl){const[id,i]=t.dataset.dl.split(':').map(Number);const d=EV.find(x=>x.id===id).dl[i];d.done=!d.done;render();if($('#scrim').classList.contains('open'))detail(id);toast(d.done?'済みにしました':'未完了に戻しました');return}
+ const sid=Number($('#sheet').dataset.id);
+ if(t.dataset.step){const e=EV.find(x=>x.id===sid);e.st=Number(t.dataset.step);e.lose=false;render();detail(sid);toast(`「${STEPS[e.st]}」にしました`);return}
+ if(t.hasAttribute('data-lose')){const e=EV.find(x=>x.id===sid);e.lose=!e.lose;render();detail(sid);return}
+ if(t.dataset.star){const e=EV.find(x=>x.id===sid);e.stars=Number(t.dataset.star);detail(sid);return}
+ if(t.hasAttribute('data-close')){closeSheet();return}
+ if(t.hasAttribute('data-share')){toast('アプリでは画像として保存されます（デモ）');return}
+});
+$('#scrim').addEventListener('click',ev=>{if(ev.target.id==='scrim')closeSheet()});
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeSheet()});
+render();
+}
+</script>
+</body>
+</html>
